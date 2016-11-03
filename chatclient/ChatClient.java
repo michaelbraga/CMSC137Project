@@ -27,23 +27,29 @@ public class ChatClient{
 	public boolean connect(){
 		try{
 			this.socket = new Socket(ipAddress, portNumber);
+			DataOutputStream toServer = new DataOutputStream(this.socket.getOutputStream());
+			DataInputStream fromServer = new DataInputStream(this.socket.getInputStream());
+
+			// check if full
+			boolean full = fromServer.readBoolean();
+			if(full){
+				this.socket.close();
+				this.socket = null;
+				System.out.println("Error: Server denied request! Server is full.");
+				return false;
+			}
 
 			// send username to server to check for duplicates
-			DataOutputStream toServer = new DataOutputStream(this.socket.getOutputStream());
 			toServer.writeUTF(this.username);
 			toServer.flush();
-
 			// wait for server response
-			DataInputStream fromServer = new DataInputStream(this.socket.getInputStream());
 			boolean requestAccepted = fromServer.readBoolean();
-
 			// if server accepted the request return true, else return false
 			if(!requestAccepted){
 				this.socket.close();
 				this.socket = null;
 				System.out.println("Error: Server denied request! Use a different username.");
 			}
-
 			return requestAccepted;
 		}
 		catch(Exception e){

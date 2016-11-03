@@ -25,6 +25,7 @@ public class ClientListener extends Thread {
 
 	public void run(){
 		String msg = null;
+		boolean printFlag = true;
 
 		try {
 			while((msg = in.readLine()) != null){
@@ -32,14 +33,20 @@ public class ClientListener extends Thread {
 					System.out.println("** "+client.username+ " has DISCONNECTED!");
 					broadcaster.broadcast("** "+client.username+ " has DISCONNECTED!");
 					clientReceiver.removeClient(client.username);
+					printFlag = false;
 				}
 				else{
 					System.out.println("("+client.username+ "): " + msg);
 					broadcaster.sendMessage(client.username, msg);
 				}
-
-
 			}
+			if(printFlag){
+				System.out.println("** "+client.username+ " has DISCONNECTED!");
+				broadcaster.broadcast("** "+client.username+ " has DISCONNECTED!");
+			}
+		}
+		catch(NullPointerException e){
+			System.out.println(client.username + " has DISCONNECTED!");
 		}
 		catch(Exception e){
 			e.printStackTrace();

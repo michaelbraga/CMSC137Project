@@ -26,26 +26,32 @@ public class ClientReceiver extends Thread {
 				Socket potentialClient = serverSocket.accept();
 				DataInputStream in = new DataInputStream(potentialClient.getInputStream());
 				DataOutputStream out = new DataOutputStream(potentialClient.getOutputStream());
-
-				// wait for username
-				String username = in.readUTF().toString().trim();
-
-				// check in list if already used
-				boolean status = checkIfAvailable(username);
-
-				// send result
-				out.writeBoolean(status);
-
-				if(status){
-					System.out.println("["+username+"] has joined the game.");
-					broadcaster.broadcast("["+username+"] has joined the game.");
-
-					Client newClient = new Client(potentialClient, username, this);
-					clientList.add(newClient);
-					broadcaster.updatePortals();
-
-					newClient.listen();
+				boolean full;
+				// if server is full
+				if( full = clientList.size() >= 5){
+					out.writeBoolean(full);
 				}
+				// if server is not full
+				else{
+					out.writeBoolean(full);
+					// wait for username
+					String username = in.readUTF().toString().trim();
+					// check in list if already used
+					boolean status = checkIfAvailable(username);
+					// send result
+					out.writeBoolean(status);
+					if(status){
+						System.out.println("["+username+"] has joined the game.");
+						broadcaster.broadcast("["+username+"] has joined the game.");
+
+						Client newClient = new Client(potentialClient, username, this);
+						clientList.add(newClient);
+						broadcaster.updatePortals();
+
+						newClient.listen();
+					}
+				}
+
 			}
 			catch(Exception e){
 				System.out.println("Failed accepting a client!");

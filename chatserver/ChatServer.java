@@ -39,8 +39,6 @@ public class ChatServer {
 		clientReceiver = new ClientReceiver(serverSocket, clientList, broadcaster, username);
 		clientReceiver.start();
 
-
-		// something!
 		BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
 		String msg;
 		while(true){

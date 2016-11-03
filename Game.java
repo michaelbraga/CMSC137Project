@@ -14,22 +14,22 @@ public class Game {
 		int choice = new Scanner(System.in).nextInt();
 
 		if(choice == 1){
-			System.out.print("Port: ");
-			int port = new Scanner(System.in).nextInt();
+			System.out.print("Port:(8080) ");
+			String port = new Scanner(System.in).nextLine();
 			System.out.print("Username: ");
 			String un = new Scanner(System.in).nextLine().trim();
 			System.out.println("==========================================");
-			new ChatServer(port, un).run();
+			new ChatServer((port.isEmpty()? 8080:Integer.parseInt(port)), un).run();
 		}
-		
+
 		else{
-			System.out.print("Port: ");
-			int port = new Scanner(System.in).nextInt();
+			System.out.print("Port:(8080) ");
+			String port = new Scanner(System.in).nextLine();
 			System.out.print("Username: ");
 			String un = new Scanner(System.in).nextLine().trim();
-			System.out.print("Ip address: ");
+			System.out.print("Ip address:(localhost) ");
 			String ip = new Scanner(System.in).nextLine().trim();
-			ChatClient c = new ChatClient(ip, port, un);
+			ChatClient c = new ChatClient((ip.isEmpty()?"localhost":ip), (port.isEmpty()? 8080:Integer.parseInt(port)), un);
 			System.out.println("==========================================");
 			if(c.connect()){
 				c.run();

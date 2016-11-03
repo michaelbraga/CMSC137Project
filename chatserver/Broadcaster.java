@@ -33,8 +33,6 @@ public class Broadcaster {
 		}
 	}
 
-
-
 	public void updatePortals(){
 		portal.clear();
 		try{
