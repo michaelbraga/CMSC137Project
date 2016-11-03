@@ -21,6 +21,7 @@ public class Game {
 			System.out.println("==========================================");
 			new ChatServer(port, un).run();
 		}
+		
 		else{
 			System.out.print("Port: ");
 			int port = new Scanner(System.in).nextInt();
