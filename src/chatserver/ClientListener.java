@@ -1,16 +1,19 @@
 package chatserver;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import controller.Game;
 
 public class ClientListener extends Thread {
+	private Game game;
 	private Client client;
 	private BufferedReader in;
 	private Broadcaster broadcaster;
 	private ClientReceiver clientReceiver;
 
-	public ClientListener(Client c, ClientReceiver cr){
+	public ClientListener(Client c, ClientReceiver cr, Game game){
+		this.game = game;
 		this.client = c;
 		this.broadcaster = cr.getBroadcaster();
 		this.clientReceiver = cr;
@@ -30,23 +33,21 @@ public class ClientListener extends Thread {
 		try {
 			while((msg = in.readLine()) != null){
 				if(msg.equals("~!exit")){
-					System.out.println("** "+client.username+ " has DISCONNECTED!");
-					broadcaster.broadcast("** "+client.username+ " has DISCONNECTED!");
+					broadcaster.broadcast("** "+client.username+ " has DISCONNECTED! eme");
 					clientReceiver.removeClient(client.username);
 					printFlag = false;
 				}
 				else{
-					System.out.println("("+client.username+ "): " + msg);
 					broadcaster.sendMessage(client.username, msg);
+					game.receiveMessage(client.username, msg);
 				}
 			}
 			if(printFlag){
-				System.out.println("** "+client.username+ " has DISCONNECTED!");
-				broadcaster.broadcast("** "+client.username+ " has DISCONNECTED!");
+				broadcaster.broadcast("** "+client.username+ " has DISCONNECTED! omo");
 			}
 		}
 		catch(NullPointerException e){
-			System.out.println(client.username + " has DISCONNECTED!");
+			System.out.println("** " + client.username + " has DISCONNECTED! imi");
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -54,3 +55,4 @@ public class ClientListener extends Thread {
 	}
 
 }
+

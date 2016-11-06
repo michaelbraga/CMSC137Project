@@ -1,10 +1,18 @@
 package chatclient;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Scanner;
+
+import controller.Game;
 
 public class ChatClient{
+	private Game game;
 	private String ipAddress;
 	private int portNumber;
 	private String username;
@@ -18,7 +26,8 @@ public class ChatClient{
 	private MessageSender ms = null;
 
 
-	public ChatClient(String ip, int port, String name){
+	public ChatClient(String ip, int port, String name, Game game){
+		this.game = game;
 		this.ipAddress = ip;
 		this.portNumber = port;
 		this.username = name;
@@ -35,7 +44,7 @@ public class ChatClient{
 			if(full){
 				this.socket.close();
 				this.socket = null;
-				System.out.println("Error: Server denied request! Server is full.");
+				game.dialogInMenu("Cannot join game! Server is full.");
 				return false;
 			}
 
@@ -48,12 +57,12 @@ public class ChatClient{
 			if(!requestAccepted){
 				this.socket.close();
 				this.socket = null;
-				System.out.println("Error: Server denied request! Use a different username.");
+				game.dialogInMenu("Cannot join game! Username is already in use.");
 			}
 			return requestAccepted;
 		}
 		catch(Exception e){
-			System.out.println("Error: Cannot connect to server!");
+			game.dialogInMenu("Cannot connect to server!");
 			this.socket = null;
 			return false;
 		}
@@ -67,26 +76,13 @@ public class ChatClient{
 	           		this.out = new PrintWriter(new OutputStreamWriter(this.socket.getOutputStream()));
 
 				// thread for receiving message
-				this.mr = new MessageReceiver(this.in, this);
+				this.mr = new MessageReceiver(this.in, this, game);
 				this.mr.start();
 
 				// object for sending message
 				this.ms = new MessageSender(this.out);
 
 				System.out.println("*Connected to chat server at port " + portNumber);
-				System.out.println("'~!exit' to leave.\n");
-
-				// infinite loop for sending messages
-				Scanner s = new Scanner(System.in);
-				String m;
-				while (true) {
-					m = s.nextLine().toString();
-					this.ms.sendMessage(m);
-
-					if(m.equals("~!exit")){
-						this.close(1);
-					}
-				}
 			}
 			catch(Exception e){
 				e.printStackTrace();
@@ -104,12 +100,14 @@ public class ChatClient{
 			if(this.in != null) this.in.close();
 			if(this.out != null) this.out.close();
 			if(this.socket != null) this.socket.close();
-			System.exit(0);
 
 		}catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
 		}
+	}
+
+	public void sendMessage(String text) {
+		ms.sendMessage(text);
 	}
 
 }

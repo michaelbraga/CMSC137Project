@@ -1,13 +1,16 @@
 package chatclient;
 
-import java.net.*;
-import java.io.*;
+import java.io.BufferedReader;
+
+import controller.Game;
 
 public class MessageReceiver extends Thread {
+	private Game game;
 	private BufferedReader in;
 	private ChatClient chatClient;
 
-	public MessageReceiver(BufferedReader inFromServer, ChatClient chatClient){
+	public MessageReceiver(BufferedReader inFromServer, ChatClient chatClient, Game game){
+		this.game = game;
 		this.in = inFromServer;
 		this.chatClient = chatClient;
 	}
@@ -16,7 +19,7 @@ public class MessageReceiver extends Thread {
 		String messageReceived = null;
 		try{
 			while((messageReceived = in.readLine().toString()) != null){
-				System.out.println(messageReceived);
+				game.receiveMessage(messageReceived);
 			}
 		}
 		catch(NullPointerException e){

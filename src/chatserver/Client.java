@@ -1,6 +1,8 @@
 package chatserver;
 
-import java.net.*;
+import java.net.Socket;
+
+import controller.Game;
 
 public class Client {
 	public Socket socket;
@@ -8,14 +10,11 @@ public class Client {
 	public String username;
 
 	private ClientListener listener;
-	private ClientReceiver clientReceiver;
 
-	public Client(Socket s, String un, ClientReceiver cr){
+	public Client(Socket s, String un, ClientReceiver cr, Game game){
 		this.socket = s;
 		this.username = un;
-
-		this.clientReceiver = cr;
-		this.listener = new ClientListener(this, cr);
+		this.listener = new ClientListener(this, cr, game);
 	}
 
 	public void listen(){

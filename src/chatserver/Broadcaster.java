@@ -1,8 +1,9 @@
 package chatserver;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.ArrayList;
 
 public class Broadcaster {
 	private ArrayList<Client> clientList;
@@ -15,6 +16,7 @@ public class Broadcaster {
 
 	public synchronized void broadcast(String message){
 		if(!message.isEmpty()){
+			System.out.println(message);
 			for (int i=0; i<portal.size(); i+=1) {
 				portal.get(i).println(message);
 				portal.get(i).flush();
@@ -24,6 +26,7 @@ public class Broadcaster {
 
 	public synchronized void sendMessage(String sender, String message){
 		if(!message.isEmpty()){
+			System.out.println("("+sender+"): "+ message);
 			for (int i=0; i<portal.size(); i+=1) {
 				if(!clientList.get(i).username.equals(sender)){
 					portal.get(i).println("("+sender+"): "+ message);

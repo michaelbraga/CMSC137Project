@@ -1,10 +1,15 @@
 package chatserver;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+
+import controller.Game;
 
 public class ClientReceiver extends Thread {
+	private Game game;
 	private String servername;
 	private ServerSocket serverSocket = null;
 	private ArrayList<Client> clientList = null;
@@ -13,7 +18,8 @@ public class ClientReceiver extends Thread {
 	private boolean stillServing = true;
 
 
-	public ClientReceiver(ServerSocket ss, ArrayList<Client> cl, Broadcaster b, String sn){
+	public ClientReceiver(ServerSocket ss, ArrayList<Client> cl, Broadcaster b, String sn, Game game){
+		this.game = game;
 		serverSocket = ss;
 		clientList = cl;
 		broadcaster = b;
@@ -41,13 +47,11 @@ public class ClientReceiver extends Thread {
 					// send result
 					out.writeBoolean(status);
 					if(status){
-						System.out.println("["+username+"] has joined the game.");
 						broadcaster.broadcast("["+username+"] has joined the game.");
-
-						Client newClient = new Client(potentialClient, username, this);
+						game.receiveMessage("["+username+"] has joined the game.");
+						Client newClient = new Client(potentialClient, username, this, game);
 						clientList.add(newClient);
 						broadcaster.updatePortals();
-
 						newClient.listen();
 					}
 				}

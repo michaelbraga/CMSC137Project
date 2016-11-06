@@ -1,7 +1,6 @@
 package chatclient;
 
-import java.net.*;
-import java.io.*;
+import java.io.PrintWriter;
 
 public class MessageSender {
 	private PrintWriter out;
