@@ -31,7 +31,6 @@ public class PlayerLives extends JPanel {
 		this.setLayout(new GridLayout(1,2 ));				
 		
 		try {
-			
  			BufferedImage pic = ImageIO.read(new File(img));
 			ImageIcon imgicon = new ImageIcon(pic.getScaledInstance(40, 40,java.awt.Image.SCALE_SMOOTH));
 			JLabel picLabel = new JLabel(imgicon);
