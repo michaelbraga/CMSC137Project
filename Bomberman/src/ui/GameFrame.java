@@ -18,8 +18,19 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Font;
+import java.awt.Canvas;
 
 import game.Game;
+
+//SLICK MATERIALS
+import ui.TutorialGame;
+import org.newdawn.slick.CanvasGameContainer;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 public class GameFrame extends JFrame {
 	private final static int WIDTH = 1000; 
@@ -117,6 +128,17 @@ public class GameFrame extends JFrame {
 	
 	public void initGamePanel(){
 		// TODO
+		TutorialGame game = new TutorialGame("Bomberman");
+		try {
+	          CanvasGameContainer container = new CanvasGameContainer(game);
+	          container.setBounds(20,20,400,400);
+	          container.getContainer().setAlwaysRender(true);
+	          gamePanel.add(container);
+	          container.start();
+	     } catch (SlickException e) {
+	          // TODO Auto-generated catch block
+	          e.printStackTrace();
+	     }
 	}
 
 	public ChatPanel getChatPanel() {
