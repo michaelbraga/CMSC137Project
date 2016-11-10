@@ -3,10 +3,21 @@ package ui;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-
+import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.ImageIcon;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import javax.swing.JLabel;
+import javax.imageio.ImageIO; 
+import java.io.File;
+import java.io.IOException;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Font;
 
 import game.Game;
 
@@ -22,6 +33,12 @@ public class GameFrame extends JFrame {
 	 * */
 	private JPanel upPanel;
 	private JPanel downPanel;
+	/*
+	 * Up Panel Components
+	 * */
+	private JPanel timerPanel;	
+	private JPanel livesPanel;
+	private PlayerLives[] playerLivesPanel = new PlayerLives[5];
 	/*
 	 * Down Panel Components
 	 * */
@@ -54,7 +71,29 @@ public class GameFrame extends JFrame {
 	}
 	
 	public void initUpPanel(){
-		// TODO
+		upPanel.setLayout(new BoxLayout(upPanel, BoxLayout.Y_AXIS));
+		
+		//timer panel 
+		timerPanel= new JPanel();
+		timerPanel.setMaximumSize(new Dimension((int)(WIDTH), (int)(0.3/6.0 * HEIGHT)));
+		JLabel timeLabel = new JLabel("REMAINING TIME: [             ]");
+		timeLabel.setFont(new Font("Serif", Font.BOLD, 15));
+		
+		timerPanel.add(timeLabel);
+		timerPanel.setBackground(Color.GRAY);
+		
+		//player status panel
+		livesPanel= new JPanel();
+		livesPanel.setMaximumSize(new Dimension((int)(WIDTH), (int)(0.6/6.0 * HEIGHT)));
+		livesPanel.setLayout(new GridLayout(1, 5));
+		livesPanel.setBackground(Color.black);	
+		for(int i=0;i<5;i++){
+			playerLivesPanel[i] = new PlayerLives("a.png");	
+			livesPanel.add(playerLivesPanel[i]);	
+		}
+
+		upPanel.add(timerPanel);
+		upPanel.add(livesPanel);
 	}
 	
 	public void initDownPanel(){
