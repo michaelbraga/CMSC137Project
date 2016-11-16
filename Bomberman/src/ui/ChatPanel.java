@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 import game.Game;
 
@@ -56,7 +57,7 @@ public class ChatPanel extends JPanel implements ActionListener{
 		chatTextArea.setEditable(false);
 		GridBagConstraints gbc = new GridBagConstraints();
 		JScrollPane scroll2 = new JScrollPane(chatTextArea, 
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll2.setBorder(BorderFactory.createCompoundBorder(
 		        scroll2.getBorder(), 
 		        BorderFactory.createEmptyBorder(1, 1, 1, 1)));
@@ -74,7 +75,7 @@ public class ChatPanel extends JPanel implements ActionListener{
 		sendButton = new JButton("Send");
 		GridBagConstraints gbc = new GridBagConstraints();
 		JScrollPane scroll1 = new JScrollPane(messageField, 
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll1.setBorder(BorderFactory.createCompoundBorder(
 		        scroll1.getBorder(), 
 		        BorderFactory.createEmptyBorder(1, 1, 1, 1)));

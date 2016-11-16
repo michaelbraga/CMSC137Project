@@ -1,22 +1,15 @@
 package ui;
 
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.JLabel;
 import javax.imageio.ImageIO; 
 import java.io.File;
 import java.io.IOException;
 import java.awt.Font;
-import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 
 public class PlayerLives extends JPanel {

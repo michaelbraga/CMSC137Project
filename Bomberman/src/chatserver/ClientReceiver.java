@@ -26,6 +26,7 @@ public class ClientReceiver extends Thread {
 		servername = sn;
 	}
 
+	@Override
 	public void run(){
 		while(stillServing){
 			try{

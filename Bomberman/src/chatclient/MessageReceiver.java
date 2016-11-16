@@ -16,6 +16,7 @@ public class MessageReceiver extends Thread {
 		this.chatClient = chatClient;
 	}
 
+	@Override
 	public void run(){
 		String messageReceived = null;
 		try{
