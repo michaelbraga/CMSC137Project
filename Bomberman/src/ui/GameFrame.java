@@ -17,7 +17,7 @@ import game.Game;
 
 public class GameFrame extends JFrame {
 	private final static int WIDTH = 1030; 
-	private final static int HEIGHT = 610; 
+	private final static int HEIGHT = 615; 
 	
 	private Game game;
 	private Container contentPane;
