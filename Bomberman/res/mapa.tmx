@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="15" height="13" tilewidth="48" tileheight="39" nextobjectid="1">
+ <tileset firstgid="1" name="grass" tilewidth="48" tileheight="39" tilecount="1" columns="1">
+  <properties>
+   <property name="destroyable" type="bool" value="false"/>
+   <property name="solid" type="bool" value="false"/>
+  </properties>
+  <image source="img/grass.png" width="48" height="40"/>
+ </tileset>
+ <tileset firstgid="2" name="destructable_walls" tilewidth="48" tileheight="39" tilecount="1" columns="1">
+  <properties>
+   <property name="destroyable" type="bool" value="true"/>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+  <image source="img/destructable_walls.png" width="48" height="41"/>
+ </tileset>
+ <tileset firstgid="3" name="wall" tilewidth="48" tileheight="39" tilecount="1" columns="1">
+  <properties>
+   <property name="destroyable" type="bool" value="false"/>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
+  <image source="img/wall.png" width="48" height="39"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="15" height="13">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA6VRQQoAIAxa2///3KVARGvUQWSUE11FRH1gLCQwAt82UNvhpLnE7hMn7Ojs59n5ckaVOUnb8XV5sUfVLf/p+ro+3H3VnVXeWy7HN1/VN2pfMQHthV0bDAMAAA==
+  </data>
+ </layer>
+</map>
