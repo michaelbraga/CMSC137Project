@@ -13,11 +13,12 @@ public class Bomberman extends BasicGame{
 	private TiledMap map;
 	private Animation sprite, up, down, left, right;
 	private float x= 1f, y=1f;
-	private boolean[][] blocked;
+	
+	private Animation bomb_sprite, bomb1;
+	private float bx= 0f, by=0f;
 	
 	public Bomberman() {
 		super("Bomberman");
-		
 	}
 
 	@Override
@@ -25,6 +26,9 @@ public class Bomberman extends BasicGame{
 		// TODO Auto-generated method stub
 		map.render(0, 0);
 		sprite.draw((int)map.getTileWidth()*x, (int)map.getTileHeight()*y);
+		if(bx > 0 && by > 0){
+			bomb_sprite.draw((int)map.getTileWidth()*bx, (int)map.getTileHeight()*by);
+		}
 	}
 
 	@Override
@@ -47,6 +51,10 @@ public class Bomberman extends BasicGame{
 		left = new Animation(l, 300);
 		right = new Animation(r, 300);
 		sprite = right;
+		
+		SpriteSheet stable = new SpriteSheet("/res/sprite/bomb2.png",36,36);
+		bomb1 = new Animation(stable,300);
+		bomb_sprite = bomb1;
 	}
 
 	@Override
@@ -70,8 +78,7 @@ public class Bomberman extends BasicGame{
 		    	y = pY;
 		    }
 		}
-		else if (input.isKeyDown(Input.KEY_DOWN))
-		{
+		else if (input.isKeyDown(Input.KEY_DOWN)) {
 		    sprite = down;
 		    sprite.update(delta);
 		    //System.out.println("@down");
@@ -83,8 +90,7 @@ public class Bomberman extends BasicGame{
 		    	y = pY;
 		    }
 		}
-		else if (input.isKeyDown(Input.KEY_LEFT))
-		{
+		else if (input.isKeyDown(Input.KEY_LEFT)) {
 		    sprite = left;
 		    sprite.update(delta);
 		    //System.out.println("@left");
@@ -96,8 +102,7 @@ public class Bomberman extends BasicGame{
 		    	x = pX;
 		    }
 		}
-		else if (input.isKeyDown(Input.KEY_RIGHT))
-		{
+		else if (input.isKeyDown(Input.KEY_RIGHT)) {
 		    sprite = right;
 		    sprite.update(delta);
 		    //System.out.println("@right");
@@ -108,6 +113,11 @@ public class Bomberman extends BasicGame{
 		    } else {
 		    	x = pX;
 		    }
+		}
+		else if (input.isKeyDown(Input.KEY_SPACE)) {
+			bx = (int)x;
+			by = (int)y;
+			bomb_sprite.update(delta);
 		}
 	}
 	
