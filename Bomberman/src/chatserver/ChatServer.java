@@ -31,14 +31,15 @@ public class ChatServer {
 			return true;
 		}
 		catch(Exception e){
-			System.out.println("*Cannot listen at port: " + portNumber);
+			game.dialogInMenu("*Cannot listen at port: " + portNumber);
 			e.printStackTrace();
 			this.serverSocket = null;
+			
 			return false;
 		}
 	}
 
-	public void run(){
+	public void start(){
 		if(serverSocket != null){
 			broadcaster = new Broadcaster(clientList);
 			clientReceiver = new ClientReceiver(serverSocket, clientList, broadcaster, username, game);
@@ -51,7 +52,7 @@ public class ChatServer {
 		try{
 			this.clientReceiver.stop();
 			this.serverSocket.close();
-			System.out.println("*Server socket at "+ portNumber +" is now close");
+			System.out.println("*Chat server socket at "+ portNumber +" is now close");
 		}
 		catch(Exception e){
 			System.out.println("*Cannot close sockets!");
@@ -65,5 +66,9 @@ public class ChatServer {
 
 	public void broadcast(String message) {
 		broadcaster.broadcast(message);
+	}
+
+	public void stopAccepting() {
+		clientReceiver.stopServing();
 	}
 }

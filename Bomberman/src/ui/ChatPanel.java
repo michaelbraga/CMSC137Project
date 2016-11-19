@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -13,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
+import constants.Constants;
 import game.Game;
 
 public class ChatPanel extends JPanel implements ActionListener{
@@ -41,7 +43,8 @@ public class ChatPanel extends JPanel implements ActionListener{
 	}
 
 	private void initLeaveButton(){
-		leaveButton = new JButton("Leave Game");
+		leaveButton = new JButton("LEAVE GAME");
+		leaveButton.setFont(new Font(Constants.FONT_STYLE, Font.PLAIN, 12));
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridx = 0;
@@ -55,6 +58,7 @@ public class ChatPanel extends JPanel implements ActionListener{
 	private void initChatArea(){
 		chatTextArea = new JTextArea();
 		chatTextArea.setEditable(false);
+		chatTextArea.setFont(new Font(Constants.FONT_STYLE, Font.PLAIN, 12));
 		GridBagConstraints gbc = new GridBagConstraints();
 		JScrollPane scroll2 = new JScrollPane(chatTextArea, 
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -72,7 +76,9 @@ public class ChatPanel extends JPanel implements ActionListener{
 	
 	private void initInputArea(){
 		messageField = new JTextArea();
-		sendButton = new JButton("Send");
+		messageField.setFont(new Font(Constants.FONT_STYLE, Font.PLAIN, 13));
+		sendButton = new JButton("SEND");
+		sendButton.setFont(new Font(Constants.FONT_STYLE, Font.BOLD, 13));
 		GridBagConstraints gbc = new GridBagConstraints();
 		JScrollPane scroll1 = new JScrollPane(messageField, 
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -118,7 +124,7 @@ public class ChatPanel extends JPanel implements ActionListener{
 	private void sendMessage(String text) {
 		if(!text.trim().isEmpty() && !text.isEmpty()){
 			game.sendMessage(text.trim());
-			updateChat("["+game.getPlayerName() + "]: " + text.trim());
+			updateChat("[ "+game.getPlayerName() + " ]: " + text.trim());
 			messageField.setText("");
 		}
 	}

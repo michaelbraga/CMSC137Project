@@ -48,8 +48,8 @@ public class ClientReceiver extends Thread {
 					// send result
 					out.writeBoolean(status);
 					if(status){
-						broadcaster.broadcast("** ("+username+") HAS JOINED THE GAME.");
-						game.receiveMessage("** ("+username+") HAS JOINED THE GAME.");
+						broadcaster.broadcast("** ( "+username+" ) HAS JOINED THE GAME.");
+						game.receiveMessage("** ( "+username+" ) HAS JOINED THE GAME.");
 						Client newClient = new Client(potentialClient, username, this, game);
 						clientList.add(newClient);
 						broadcaster.updatePortals();
@@ -88,5 +88,9 @@ public class ClientReceiver extends Thread {
 				broadcaster.updatePortals();
 			}
 		}
+	}
+
+	public void stopServing() {
+		this.stillServing = false;
 	}
 }

@@ -8,6 +8,8 @@ import javax.swing.JOptionPane;
 import chatclient.ChatClient;
 import chatserver.ChatServer;
 import constants.Constants;
+import gameclient.GameClient;
+import gameserver.GameServer;
 import player.Player;
 import ui.GameFrame;
 import ui.MenuFrame;
@@ -22,8 +24,13 @@ public class Game implements WindowListener{
 	private ChatClient chatClient;
 	private ChatServer chatServer;
 	
+	/* Game Connection components */
+	private GameServer gameServer;
+	private GameClient gameClient;
+	
 	/* Player info */
 	Player player;
+	private String serverIp;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -35,29 +42,37 @@ public class Game implements WindowListener{
 	}
 
 	public void join(int tcp_port, String username, String ip) {
-		chatClient = new ChatClient(ip, Constants.TCP_PORT, username, this);
 		
-		if(chatClient.connect()){
+		chatClient = new ChatClient(ip, Constants.TCP_PORT, username, this);
+		this.setServerIp(ip);
+		gameClient = new GameClient(this, username);
+		
+		if(chatClient.connect() && gameClient.connect()){
 			player = new Player(username, Player.CLIENT);
 			destroyMenuWindow();
 			openGameWindow();
-			chatClient.run();
+			chatClient.start();
+			gameClient.start();
 		}else{
 			chatClient = null;
+			gameClient = null;
 		}
 	}
 
 	public void hostGame(int tcp_port, String username) {
+		
 		chatServer = new ChatServer(tcp_port, username, this);
-		if(chatServer.host()){
+		gameServer = new GameServer(this);
+		if(chatServer.host() && gameServer.host()){
 			player = new Player(username, Player.HOST);
 			destroyMenuWindow();
 			openGameWindow();
-			chatServer.run();
+			chatServer.start();
+			gameServer.start();
 		}
 		else{
 			chatServer = null;
-			dialogInMenu("Cannot host game!");
+			gameServer = null;
 		}
 	}
 
@@ -65,6 +80,7 @@ public class Game implements WindowListener{
 		if(menuFrame != null)
 			JOptionPane.showMessageDialog(menuFrame, string);
 	}
+	
 	public void dialogInGame(String string) {
 		if(gameFrame != null)
 			JOptionPane.showMessageDialog(gameFrame, string);
@@ -85,6 +101,13 @@ public class Game implements WindowListener{
 	public String getPlayerName() {
 		return (player == null)? null:player.getUsername();
 	}
+	
+	public String getServerIp() {
+		return (serverIp == null)? null:serverIp;
+	}
+	public void setServerIp(String ip) {
+		this.serverIp =ip;
+	}
 
 	public void receiveMessage(String messageReceived) {
 		// TODO Auto-generated method stub
@@ -93,22 +116,22 @@ public class Game implements WindowListener{
 
 	public void receiveMessage(String username, String messageReceived) {
 		// TODO Auto-generated method stub
-		gameFrame.getChatPanel().updateChat("("+username + "): " + messageReceived);
+		gameFrame.getChatPanel().updateChat("( "+username + " ): " + messageReceived);
 	}
 
 	private boolean quit(){
 		int response = JOptionPane.showConfirmDialog(menuFrame, "Are you sure you want to leave?");
 		return (response == JOptionPane.YES_OPTION);
 	}
+	
 	public void leave() {
 		if(quit()){
 			sendMessage(Constants.LEAVE_GAME);
+			destroyGameWindow();
+			if(player.isHost())
+				closeSockets();
+			System.exit(0);
 		}
-		destroyGameWindow();
-		openMenuWindow();
-		
-		if(player.isHost())
-			closeSockets();
 	}
 	
 	private void openMenuWindow(){
@@ -141,9 +164,11 @@ public class Game implements WindowListener{
 	private void closeSockets() {
 		if(player.isHost()){
 			chatServer.stop();
+			gameServer.stop();
 		}
 		else{
 			chatClient.close(1);
+			gameClient.close();
 		}
 	}
 
@@ -156,7 +181,7 @@ public class Game implements WindowListener{
 	@Override
 	public void windowClosing(WindowEvent e) {
 		if(quit()){
-			closeSockets();
+			System.exit(0);
 		}
 	}
 
@@ -190,4 +215,34 @@ public class Game implements WindowListener{
 		
 	}
 
+	public void makeReady() {
+		if(!player.isHost()){
+			gameClient.makeReady();
+		}
+	}
+
+	public void removeGameClient(String username) {
+		gameServer.removeClient(username);
+		
+	}
+
+	public Player getPlayer() {
+		return this.player;
+	}
+
+	public void start() {
+		if(player.isHost()){
+			if(gameServer.isOkayToStart()){
+				dialogInGame("Starting!");
+				this.chatServer.stopAccepting();
+				gameServer.broadcast("STARTNA");
+				gameFrame.startGame();
+				gameServer.startGame();
+			}
+		}
+		else{
+			gameFrame.startGame();
+		}
+		
+	}
 }

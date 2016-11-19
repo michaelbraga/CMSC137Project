@@ -3,16 +3,18 @@ package ui;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
+
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import org.newdawn.slick.CanvasGameContainer;
 import org.newdawn.slick.SlickException;
 
-import javax.swing.JLabel;
-import java.awt.Font;
 import game.Game;
 
 public class GameFrame extends JFrame {
@@ -38,13 +40,18 @@ public class GameFrame extends JFrame {
 	 * */
 	private ChatPanel chatPanel;
 	private CanvasGameContainer gamePanel;
+	
+	/* Bomberman game */
+	private Bomberman bombermanGame;
 
 	public GameFrame(Game game) {
+		super("BOMBERMAN - " + game.getPlayerName());
 		this.game = game;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setSize(new Dimension(WIDTH, HEIGHT));
 		setResizable(false);
 		initComponents();
+		this.setLocationRelativeTo(null);
 	}
 	
 	private void initComponents(){
@@ -92,29 +99,18 @@ public class GameFrame extends JFrame {
 	public void initDownPanel(){
 		downPanel.setLayout(new BoxLayout(downPanel, BoxLayout.X_AXIS));
 		chatPanel = new ChatPanel(game, new Dimension((int)(3.0/10.0 * WIDTH), (int)(5.0/6.0 * HEIGHT)));
+		bombermanGame = null;
+		bombermanGame = new Bomberman(game);
 		try{
-			gamePanel = new CanvasGameContainer(new Bomberman());
+			gamePanel = new CanvasGameContainer(bombermanGame);
+			gamePanel.setMaximumSize(new Dimension((int)(7.0/10.0 * WIDTH), (int)(5.0/6.0 * HEIGHT)));
 		}catch(SlickException e){
 			e.printStackTrace();
 		}
 		
-		gamePanel.setMaximumSize(new Dimension((int)(7.0/10.0 * WIDTH), (int)(5.0/6.0 * HEIGHT)));
 		downPanel.add(chatPanel);
 		downPanel.add(gamePanel);
-		initChatPanel();
-		initGamePanel();
 		
-		// for editing purposes
-		chatPanel.setBackground(Color.LIGHT_GRAY);
-	}
-	
-	public void initChatPanel(){
-		// TODO
-	}
-	
-	public void initGamePanel(){
-		// TODO
-		Bomberman game = new Bomberman();
 		try {
 			  gamePanel.getContainer().setAlwaysRender(true);
 			  gamePanel.getContainer().setTargetFrameRate(60);
@@ -123,10 +119,25 @@ public class GameFrame extends JFrame {
 	          // TODO Auto-generated catch block
 	          e.printStackTrace();
 	     }
+		
+		// for editing purposes
+		chatPanel.setBackground(Color.LIGHT_GRAY);
+	}
+	
+	
+	@Override
+	public void dispose(){
+		super.dispose();
+		gamePanel.dispose();
+		gamePanel = null;
 	}
 
 	public ChatPanel getChatPanel() {
 		return chatPanel;
+	}
+
+	public void startGame() {
+		this.bombermanGame.startGame();
 	}
 
 }

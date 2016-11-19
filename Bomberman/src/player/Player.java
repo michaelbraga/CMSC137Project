@@ -1,5 +1,6 @@
 package player;
 
+import java.awt.Point;
 
 public class Player {
 	public final static boolean HOST = true;
@@ -8,13 +9,23 @@ public class Player {
 	private String username;
 	private int lives;
 	private boolean ready;
+	private boolean canDeployBomb;
+	private Point position;
+	
+	// NOT USED IN UDP 
 	private boolean isHost;
 	
 	public Player(String username, boolean isHost){
 		this.username = username;
 		this.lives = 3;
-		ready = false;
 		this.isHost = isHost;
+	}
+	
+	public Player(String username){
+		this.username = username;
+		this.lives = 3;
+		this.ready = false;
+		this.canDeployBomb = true;
 	}
 
 	public String getUsername() {
@@ -24,12 +35,16 @@ public class Player {
 	public int getLives() {
 		return lives;
 	}
-
-	public boolean isReady() {
-		return ready;
-	}
 	
 	public boolean isHost() {
 		return isHost;
+	}
+
+	public void makeReady() {
+		this.ready = true;
+	}
+
+	public boolean isReady() {
+		return this.ready;
 	}
 }

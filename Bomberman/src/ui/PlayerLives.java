@@ -1,16 +1,17 @@
 package ui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
-import javax.swing.JPanel;
-import javax.swing.ImageIcon;
 import java.awt.image.BufferedImage;
-import javax.swing.JLabel;
-import javax.imageio.ImageIO; 
 import java.io.File;
 import java.io.IOException;
-import java.awt.Font;
+
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class PlayerLives extends JPanel {
 		private String img;

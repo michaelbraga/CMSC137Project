@@ -46,9 +46,10 @@ public class ClientListener extends Thread {
 			e.printStackTrace();
 		}
 		finally{
-			game.receiveMessage("** ("+ client.username + ") HAS DISCONNECTED!");
-			broadcaster.broadcast("** ("+ client.username + ") HAS DISCONNECTED!");
+			game.receiveMessage("** ( "+ client.username + " ) HAS DISCONNECTED!");
+			broadcaster.broadcast("** ( "+ client.username + " ) HAS DISCONNECTED!");
 			clientReceiver.removeClient(client.username);
+			game.removeGameClient(client.username);
 		}
 	}
 

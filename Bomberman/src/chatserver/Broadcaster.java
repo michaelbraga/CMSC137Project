@@ -28,7 +28,7 @@ public class Broadcaster {
 		if(!message.isEmpty()){
 			for (int i=0; i<portal.size(); i+=1) {
 				if(!clientList.get(i).username.equals(sender)){
-					portal.get(i).println("("+sender+"): "+ message);
+					portal.get(i).println("( "+sender+" ): "+ message);
 					portal.get(i).flush();
 				}
 			}

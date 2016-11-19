@@ -24,6 +24,7 @@ public class ChatClient{
 
 	public ChatClient(String ip, int port, String name, Game game){
 		this.game = game;
+		this.game.setServerIp(ip);
 		this.ipAddress = ip;
 		this.portNumber = port;
 		this.username = name;
@@ -64,7 +65,7 @@ public class ChatClient{
 		}
 	}
 
-	public void run(){
+	public void start(){
 		if(this.socket != null){
 			try{
 				// Stream readers and writers for send and receiving strings
@@ -103,5 +104,4 @@ public class ChatClient{
 	public void sendMessage(String text) {
 		ms.sendMessage(text);
 	}
-
 }
