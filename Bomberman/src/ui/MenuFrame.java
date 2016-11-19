@@ -31,9 +31,10 @@ public class MenuFrame extends JFrame implements ActionListener{
 	private JTextField usernameJoin;
 	private JTextField ip;
 	
-	private Pattern ipPattern;
+	private Pattern ipPattern, usernamePattern;
 	
 	public MenuFrame(Game game) {
+		super("BOMBERMAN - menu");
 		this.game = game;
 		
 		// initialize all objects
@@ -41,7 +42,7 @@ public class MenuFrame extends JFrame implements ActionListener{
 		initComponents();
 		addButtonListeners();
 		prepareCheckers();
-		
+		this.setLocationRelativeTo(null);
 		showMenuPane();
 	}
 
@@ -155,6 +156,7 @@ public class MenuFrame extends JFrame implements ActionListener{
 				"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
 				"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
 				"([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
+		usernamePattern = Pattern.compile("^[a-zA-Z_0-9]+$");
 	}
 	
 	private void showHostPane(){
@@ -183,8 +185,11 @@ public class MenuFrame extends JFrame implements ActionListener{
 	private void join() {
 		if(!usernameJoin.getText().isEmpty() && !ip.getText().isEmpty()){
 			// check if ip is valid
-			if(ipPattern.matcher(ip.getText()).matches() || ip.getText().trim().toLowerCase().equals("localhost")){
-				game.join(Constants.TCP_PORT, usernameJoin.getText(), ip.getText());
+			if(!usernamePattern.matcher(usernameJoin.getText().trim()).matches()){
+				JOptionPane.showMessageDialog(this, "Username not valid!");
+			}
+			else if(ipPattern.matcher(ip.getText()).matches() || ip.getText().trim().toLowerCase().equals("localhost")){
+				game.join(Constants.TCP_PORT, usernameJoin.getText().trim(), ip.getText().trim());
 			}
 			else{
 				 JOptionPane.showMessageDialog(this, "IP Address is invalid!");
