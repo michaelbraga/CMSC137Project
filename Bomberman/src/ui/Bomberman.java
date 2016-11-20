@@ -1,5 +1,6 @@
 package ui;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
@@ -7,23 +8,24 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.tiled.TiledMap;
 
 import constants.Constants;
 import game.Game;
-import gameserver.GameState;
 
 public class Bomberman extends BasicGame{
 	private TextField bombField;
 	private Game game;
 	private int gameStatus = Constants.WAITING_FOR_PLAYERS;
 	private TiledMap map;
-	private GameState gameState;
-	private String mapFile;
+	public static int TILE_WIDTH, TILE_HEIGHT;
+	
 	
 	private float x=1f, y=1f;
+	private Animation bombSprite;
 	
 	public Bomberman(Game game) {
 		super("Bomberman");
@@ -47,7 +49,10 @@ public class Bomberman extends BasicGame{
 
 	private void showGame(GameContainer gc, Graphics g) {
 		map.render(0, 0);
-		g.fillRoundRect(map.getTileWidth()*x, map.getTileHeight()*y, map.getTileWidth(), map.getTileHeight(), 5);
+		g.fillRoundRect(TILE_WIDTH*x, TILE_HEIGHT*y, TILE_WIDTH, TILE_HEIGHT, 5);
+		
+			bombSprite.draw(TILE_WIDTH*(x+2) +4, TILE_HEIGHT*(y+3));
+			bombSprite.draw(TILE_WIDTH*(1) +4, TILE_HEIGHT*(11));
 	}
 
 	private void waitingButReady(GameContainer gc, Graphics g) {
@@ -78,7 +83,12 @@ public class Bomberman extends BasicGame{
 			bombField = new TextField(gc, font, gc.getWidth()/3+25, gc.getHeight()/2-50, 200, 30);
 			bombField.setBorderColor(Color.darkGray);
 			bombField.setBackgroundColor(Color.gray);
+			
 			map = new TiledMap("res/map1.tmx");
+			TILE_HEIGHT = map.getTileHeight();
+			TILE_WIDTH = map.getTileWidth();
+			
+			bombSprite = new Animation(new SpriteSheet("res/sprite/bomb.png", 39, 39), 200);
 		} catch (Exception e) {
 			e.printStackTrace();
 			game.dialogInGame("Error in Slick2D!");
@@ -98,9 +108,6 @@ public class Bomberman extends BasicGame{
 				game.start();
 				bombField.setText("");
 			}
-		}
-		else{
-			
 		}
 	}
 
