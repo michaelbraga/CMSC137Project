@@ -44,7 +44,7 @@ public class GameServer{
 		return true;
 	}
 	
-	public void start(){
+	public void startServing(){
 		if(serverSocket != null){
 			playerListener = new PlayerListener(this);
 			playerListener.start();
@@ -145,10 +145,11 @@ public class GameServer{
 				}		
 	}
 
-	public void makeReady(String username) {
+	public void makePlayerReady(String username) {
 		for(Client c: players){
 			if(c.getUsername().equals(username)){
 				c.makeReady();
+				game.announce("( "+c.getUsername() + " ) is ready to play!");
 			}
 		}
 	}
@@ -165,7 +166,7 @@ public class GameServer{
 		}
 	}
 
-	public void removeClient(String username) {
+	public void removePlayer(String username) {
 		for(int i=0; i<players.size(); i+=1){
 			if(players.get(i).getUsername().equals(username)){
 				players.remove(i);
@@ -189,7 +190,7 @@ public class GameServer{
 			
 		for(Client c: players){
 			if(!c.isReady()){
-				game.dialogInGame("Not all players are ready!");
+				game.dialogInGame("Some players are not ready!");
 				return false;
 			}
 		}

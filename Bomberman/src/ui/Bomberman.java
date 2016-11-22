@@ -15,6 +15,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import constants.Constants;
 import game.Game;
+import gameserver.GameState;
 
 public class Bomberman extends BasicGame{
 	private TextField bombField;
@@ -46,13 +47,31 @@ public class Bomberman extends BasicGame{
 				break;
 		}
 	}
+	
+	public void updateGameState(GameState gameState){
+		// will be called by (ServerListener if client) or (
+	}
 
 	private void showGame(GameContainer gc, Graphics g) {
-		map.render(0, 0);
-		g.fillRoundRect(TILE_WIDTH*x, TILE_HEIGHT*y, TILE_WIDTH, TILE_HEIGHT, 5);
+		/*
+		 * Render map
+		 * */
+		map.render(0, 0); // for testing only
 		
-			bombSprite.draw(TILE_WIDTH*(x+2) +4, TILE_HEIGHT*(y+3));
-			bombSprite.draw(TILE_WIDTH*(1) +4, TILE_HEIGHT*(11));
+		/*
+		 * Render all players
+		 * */
+		g.fillRoundRect(TILE_WIDTH*x, TILE_HEIGHT*y, TILE_WIDTH, TILE_HEIGHT, 5); // for testing only
+		
+		/*
+		 * Render bombs
+		 * */
+		bombSprite.draw(TILE_WIDTH*(x+2) +4, TILE_HEIGHT*(y+3)); // for testing only
+		bombSprite.draw(TILE_WIDTH*(1) +4, TILE_HEIGHT*(11)); // for testing only
+		
+		/*
+		 * Render player
+		 * */
 	}
 
 	private void waitingButReady(GameContainer gc, Graphics g) {
@@ -68,7 +87,7 @@ public class Bomberman extends BasicGame{
 		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
 
 		g.setColor(Color.yellow);
-		String text = (game.getPlayer().isHost())? "Waiting for other players. Type 'play' to be start":"Waiting for other players. Type 'bomb' to be ready :)";
+		String text = (game.getPlayer().isHost())? "Waiting for other players. Type [play] to start.":"Waiting for other players. Type [bomb] to be ready.";
 		g.drawString(text, gc.getWidth()/5, gc.getHeight()/3);
 
 		g.setColor(Color.white);

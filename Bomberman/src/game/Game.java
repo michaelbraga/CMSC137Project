@@ -68,7 +68,7 @@ public class Game implements WindowListener{
 			destroyMenuWindow();
 			openGameWindow();
 			chatServer.start();
-			gameServer.start();
+			gameServer.startServing();
 		}
 		else{
 			chatServer = null;
@@ -222,7 +222,7 @@ public class Game implements WindowListener{
 	}
 
 	public void removeGameClient(String username) {
-		gameServer.removeClient(username);
+		gameServer.removePlayer(username);
 		
 	}
 
@@ -244,5 +244,10 @@ public class Game implements WindowListener{
 			gameFrame.startGame();
 		}
 		
+	}
+
+	public void announce(String string) {
+		gameFrame.getChatPanel().updateChat(string);
+		chatServer.broadcast(string);
 	}
 }

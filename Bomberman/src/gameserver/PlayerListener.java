@@ -44,7 +44,7 @@ public class PlayerListener extends Thread {
 						else if(messageReceived.startsWith("READYNAKO+")){
 							String tokens[] = messageReceived.split("\\+");
 							gameServer.send("OKAY", tokens[1]);
-							gameServer.makeReady(tokens[1].trim());
+							gameServer.makePlayerReady(tokens[1].trim());
 						}
 						
 						

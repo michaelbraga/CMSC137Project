@@ -16,7 +16,6 @@ public class Broadcaster {
 
 	public synchronized void broadcast(String message){
 		if(!message.isEmpty()){
-			System.out.println(message);
 			for (int i=0; i<portal.size(); i+=1) {
 				portal.get(i).println(message);
 				portal.get(i).flush();
