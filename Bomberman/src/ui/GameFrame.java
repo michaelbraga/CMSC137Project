@@ -5,12 +5,15 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
 import org.newdawn.slick.CanvasGameContainer;
@@ -33,9 +36,10 @@ public class GameFrame extends JFrame {
 	/*
 	 * Up Panel Components
 	 * */
-	private JPanel timerPanel;	
-	private JPanel livesPanel;
 	private PlayerLives[] playerLivesPanel = new PlayerLives[6];
+	private JLabel timeLabel_min;
+	private JLabel timeLabel_sec;
+	private Timer timer;
 	/*
 	 * Down Panel Components
 	 * */
@@ -75,16 +79,43 @@ public class GameFrame extends JFrame {
 		upPanel.setLayout(new BoxLayout(upPanel, BoxLayout.Y_AXIS));
 		
 		//timer panel 
-		timerPanel= new JPanel();
+		JPanel timerPanel= new JPanel();
 		timerPanel.setMaximumSize(new Dimension((WIDTH), (int)(0.3/6.0 * HEIGHT)));
-		JLabel timeLabel = new JLabel("REMAINING TIME: [             ]");
-		timeLabel.setFont(new Font("Serif", Font.BOLD, 15));
+		timeLabel_min = new JLabel();
+		timeLabel_sec = new JLabel();
+		timeLabel_min.setFont(new Font("Serif", Font.BOLD, 15));
+		timeLabel_sec.setFont(new Font("Serif", Font.BOLD, 15));
 		
-		timerPanel.add(timeLabel);
-		timerPanel.setBackground(Color.GRAY);
+		timer = new Timer(1000, new ActionListener() {
+		    int counterMinutes = 3;
+		    int counterSeconds = 0;
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+				if(counterSeconds == 0 && counterMinutes!=0) {
+		            counterSeconds = 59;
+		            counterMinutes--;
+
+		            timeLabel_min.setText(String.valueOf(counterMinutes)); 
+		            timeLabel_sec.setText(String.valueOf(counterSeconds));                         
+		        } else if(counterMinutes == 0&&counterSeconds==0) {
+		            timer.stop(); 
+		        }else{
+		        	counterSeconds--;
+		        	timeLabel_sec.setText(String.valueOf(counterSeconds));
+		        } 
+		    }
+		});
+		timer.start();
+		
+		JLabel colon = new JLabel(":");
+		
+		timerPanel.add(timeLabel_min);
+		timerPanel.add(colon);
+		timerPanel.add(timeLabel_sec);
+		timerPanel.setBackground(Color.LIGHT_GRAY);
 		
 		//player status panel
-		livesPanel= new JPanel();
+		JPanel livesPanel= new JPanel();
 		livesPanel.setMaximumSize(new Dimension((WIDTH), (int)(0.6/6.0 * HEIGHT)));
 		livesPanel.setLayout(new GridLayout(1, 5));
 		livesPanel.setBackground(Color.black);	
@@ -92,7 +123,8 @@ public class GameFrame extends JFrame {
 			playerLivesPanel[i] = new PlayerLives(i);	
 			livesPanel.add(playerLivesPanel[i]);	
 		}
-		playerLivesPanel[1].activate();
+		playerLivesPanel[1].activate();//try
+		playerLivesPanel[2].activate();
 		
 		upPanel.add(timerPanel);
 		upPanel.add(livesPanel);
@@ -120,12 +152,10 @@ public class GameFrame extends JFrame {
 	     } catch (SlickException e) {
 	          // TODO Auto-generated catch block
 	          e.printStackTrace();
-	     }
-		
+	     }	
 		// for editing purposes
 		chatPanel.setBackground(Color.LIGHT_GRAY);
 	}
-	
 	
 	@Override
 	public void dispose(){
