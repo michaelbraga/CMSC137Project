@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.net.URISyntaxException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -34,7 +35,7 @@ public class GameFrame extends JFrame {
 	 * */
 	private JPanel timerPanel;	
 	private JPanel livesPanel;
-	private PlayerLives[] playerLivesPanel = new PlayerLives[5];
+	private PlayerLives[] playerLivesPanel = new PlayerLives[6];
 	/*
 	 * Down Panel Components
 	 * */
@@ -44,7 +45,7 @@ public class GameFrame extends JFrame {
 	/* Bomberman game */
 	private Bomberman bombermanGame;
 
-	public GameFrame(Game game) {
+	public GameFrame(Game game)  {
 		super("BOMBERMAN - " + game.getPlayerName());
 		this.game = game;
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -54,7 +55,7 @@ public class GameFrame extends JFrame {
 		this.setLocationRelativeTo(null);
 	}
 	
-	private void initComponents(){
+	private void initComponents() {
 		contentPane = getContentPane();
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		upPanel = new JPanel();
@@ -87,11 +88,12 @@ public class GameFrame extends JFrame {
 		livesPanel.setMaximumSize(new Dimension((WIDTH), (int)(0.6/6.0 * HEIGHT)));
 		livesPanel.setLayout(new GridLayout(1, 5));
 		livesPanel.setBackground(Color.black);	
-		for(int i=0;i<5;i++){
-			playerLivesPanel[i] = new PlayerLives("a.png");	
+		for(int i=1;i<=5;i++){
+			playerLivesPanel[i] = new PlayerLives(i);	
 			livesPanel.add(playerLivesPanel[i]);	
 		}
-
+		playerLivesPanel[1].activate();
+		
 		upPanel.add(timerPanel);
 		upPanel.add(livesPanel);
 	}
