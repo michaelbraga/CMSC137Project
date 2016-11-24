@@ -16,6 +16,7 @@ import org.newdawn.slick.CanvasGameContainer;
 import org.newdawn.slick.SlickException;
 
 import game.Game;
+import gameserver.GameState;
 
 public class GameFrame extends JFrame {
 	private final static int WIDTH = 1030; 
