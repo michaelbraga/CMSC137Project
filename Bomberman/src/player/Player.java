@@ -10,7 +10,6 @@ public class Player {
 	private int lives;
 	private boolean ready;
 	private boolean canDeployBomb;
-	private Point position;
 	
 	// NOT USED IN UDP 
 	private boolean isHost;
@@ -22,6 +21,13 @@ public class Player {
 	}
 	
 	public Player(String username){
+		this.username = username;
+		this.lives = 3;
+		this.ready = false;
+		this.canDeployBomb = true;
+	}
+
+	public Player(String username, int lives) {
 		this.username = username;
 		this.lives = 3;
 		this.ready = false;
@@ -46,5 +52,9 @@ public class Player {
 
 	public boolean isReady() {
 		return this.ready;
+	}
+
+	public void setLives(int i) {
+		this.lives = i;
 	}
 }

@@ -25,7 +25,7 @@ public class ServerListener extends Thread{
 				analyzeMessage(messageReceived);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 		}
 	}
@@ -34,6 +34,12 @@ public class ServerListener extends Thread{
 		
 		if(messageReceived.startsWith("STARTNA")){
 			gameClient.startGame();
+		}
+		else if(messageReceived.startsWith("UPDATE")){
+			gameClient.updateGameState(messageReceived);
+		}
+		else{
+			System.out.println(messageReceived);
 		}
 	}
 }

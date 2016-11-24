@@ -18,6 +18,6 @@ public class GameBroadcaster extends Thread {
 
 	@Override
 	public void run(){
-		// send initial
+		
 	}
 }

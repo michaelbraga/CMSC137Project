@@ -10,6 +10,7 @@ import chatserver.ChatServer;
 import constants.Constants;
 import gameclient.GameClient;
 import gameserver.GameServer;
+import gameserver.GameState;
 import player.Player;
 import ui.GameFrame;
 import ui.MenuFrame;
@@ -236,11 +237,12 @@ public class Game implements WindowListener{
 				dialogInGame("Starting!");
 				this.chatServer.stopAccepting();
 				gameServer.broadcast("STARTNA");
-				gameFrame.startGame();
-				gameServer.startGame();
+				gameFrame.startGame(); // for host
+				gameServer.startGame(); // for others, broadcast
 			}
 		}
 		else{
+			// for client side only
 			gameFrame.startGame();
 		}
 		
@@ -249,5 +251,24 @@ public class Game implements WindowListener{
 	public void announce(String string) {
 		gameFrame.getChatPanel().updateChat(string);
 		chatServer.broadcast(string);
+	}
+
+	public void sendGameAction(String action) {
+		if(!player.isHost()){
+			gameClient.sendGameAction(action);
+		}
+		else{
+			String[] tokens = action.split("\\+");
+			// update game
+			gameServer.doAction(getPlayerName(), tokens[2]);
+		}
+	}
+	
+	public GameServer getGameServer() {
+		return this.gameServer;
+	}
+
+	public GameClient getGameClient() {
+		return this.gameClient;
 	}
 }

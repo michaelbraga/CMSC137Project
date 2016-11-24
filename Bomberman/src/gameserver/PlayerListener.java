@@ -26,7 +26,6 @@ public class PlayerListener extends Thread {
 				DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 				serverSocket.receive(packet);
 				messageReceived = new String(buffer).trim();
-				
 				// process received message
 				switch(gameServer.getGameStatus()){
 				
@@ -46,14 +45,20 @@ public class PlayerListener extends Thread {
 							gameServer.send("OKAY", tokens[1]);
 							gameServer.makePlayerReady(tokens[1].trim());
 						}
-						
-						
+
 						else{
 							System.out.println("Wrong message!");
 						}
 						break;
+					
+					case Constants.GAME_START:
+						// action from player client
+						if(messageReceived.startsWith("ACTION")){
+							String tokens[] = messageReceived.split("\\+");
+							gameServer.doAction(tokens[1], tokens[2]);
+						}
 						
-						
+						break;
 				}
 			} catch(Exception e){
 			}

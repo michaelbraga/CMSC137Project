@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 
 import constants.Constants;
 import game.Game;
+import gameserver.GameState;
 
 public class GameClient{
 	private DatagramSocket clientSocket;
@@ -16,6 +17,8 @@ public class GameClient{
 	private Game game;
 	private ServerListener serverListener;
 	private String username;
+	private GameState gameState;
+	
 	
 	public GameClient(Game game, String username){
 		this.game = game;
@@ -115,5 +118,17 @@ public class GameClient{
 
 	public void startGame() {
 		game.start();
+	}
+
+	public void sendGameAction(String action) {
+		send(action);
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
+	}
+
+	public void updateGameState(String update) {
+		this.gameState.update(update);
 	}
 }

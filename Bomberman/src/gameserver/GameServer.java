@@ -22,6 +22,9 @@ public class GameServer{
 	private ArrayList<Point> spawnPoints;
 	private GameBroadcaster gameBroadcaster;
 	private GameState gameState;
+	private Client self;
+	
+	public static int TILE_WIDTH=48, TILE_HEIGHT=39;
 	
 
 	public GameServer(Game game){
@@ -49,7 +52,9 @@ public class GameServer{
 			playerListener = new PlayerListener(this);
 			playerListener.start();
 			initializeSpawnPoints();
-			gameBroadcaster = new GameBroadcaster(this);
+
+			self = new Client(game.getPlayerName(), null, 0);
+			self.assignSpawnPosition(spawnPoints.get(0));
 		}
 	}
 
@@ -71,12 +76,12 @@ public class GameServer{
 		 
 		 */
 		spawnPoints = new ArrayList<>();
-		spawnPoints.add(new Point(1,1));
-		spawnPoints.add(new Point(13, 1));
-		spawnPoints.add(new Point(5, 6));
-		spawnPoints.add(new Point(9, 6));
-		spawnPoints.add(new Point(1, 11));
-		spawnPoints.add(new Point(13, 11));
+		spawnPoints.add(new Point(TILE_WIDTH*1,TILE_HEIGHT*1));
+		spawnPoints.add(new Point(TILE_WIDTH*13, TILE_HEIGHT*1));
+		spawnPoints.add(new Point(TILE_WIDTH*5, TILE_HEIGHT*6));
+		spawnPoints.add(new Point(TILE_WIDTH*9, TILE_HEIGHT*6));
+		spawnPoints.add(new Point(TILE_WIDTH*1, TILE_HEIGHT*11));
+		spawnPoints.add(new Point(TILE_WIDTH*13, TILE_HEIGHT*11));
 	}
 
 	public void addPlayer(Client p){
@@ -92,7 +97,7 @@ public class GameServer{
 		}
 		if(!existing){
 			System.out.println("Added: "+p.getUsername());
-			p.assignSpawnPosition(spawnPoints.get(players.size()));
+			p.assignSpawnPosition(spawnPoints.get(players.size()+1));
 			this.players.add(p);
 		} 
 	}
@@ -160,7 +165,7 @@ public class GameServer{
 
 	public void send(String message, String username) {
 		for(Client c: players){
-			if(c.getUsername().equals(username)){
+			if(!c.getUsername().equals(self.getUsername()) && c.getUsername().equals(username)){
 				send(message, c);
 			}
 		}
@@ -178,7 +183,8 @@ public class GameServer{
 
 	public void broadcast(String message) {
 		for(Client c: players){
-			send(message, c);
+			if(!c.getUsername().equals(self.getUsername()))
+				send(message, c);
 		}
 	}
 
@@ -198,6 +204,48 @@ public class GameServer{
 	}
 
 	public void startGame() {
-		gameBroadcaster.start();
+		this.players.add(self);
+		gameStatus = Constants.GAME_START;
+		broadcast("UPDATE~"+ gameState.toString());
+	}
+
+	public void doAction(String playerName, String action) {
+		movePlayer(playerName, action);
+		// update
+		if(this.gameState == null){
+			game.dialogInGame("null si gameState");
+		}
+		broadcast("UPDATE~"+ gameState.toString());
+	}
+
+	private void movePlayer(String username, String movement) {
+		Client player = getPlayer(username);
+		
+		if(movement.equals("UP")){
+			player.moveUp();
+		}
+		else if(movement.equals("DOWN")){
+			player.moveDown();
+		}
+		else if(movement.equals("LEFT")){
+			player.moveLeft();
+		}
+		else if(movement.equals("RIGHT")){
+			player.moveRight();
+		}
+		
+	}
+
+	private Client getPlayer(String username) {
+		for(Client c: players){
+			if(c.getUsername().equals(username))
+				return c;
+		}
+		return null;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
+		gameState.setPlayers(this.players);
 	}
 }

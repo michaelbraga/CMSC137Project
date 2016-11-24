@@ -15,6 +15,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import constants.Constants;
 import game.Game;
+import gameserver.Client;
 import gameserver.GameState;
 
 public class Bomberman extends BasicGame{
@@ -27,6 +28,7 @@ public class Bomberman extends BasicGame{
 	
 	private float x=1f, y=1f;
 	private Animation bombSprite;
+	private GameState gameState;
 	
 	public Bomberman(Game game) {
 		super("Bomberman");
@@ -48,20 +50,19 @@ public class Bomberman extends BasicGame{
 		}
 	}
 	
-	public void updateGameState(GameState gameState){
-		// will be called by (ServerListener if client) or (
-	}
 
 	private void showGame(GameContainer gc, Graphics g) {
 		/*
 		 * Render map
 		 * */
-		map.render(0, 0); // for testing only
+		gameState.getMap().render(0, 0);
 		
 		/*
 		 * Render all players
 		 * */
-		g.fillRoundRect(TILE_WIDTH*x, TILE_HEIGHT*y, TILE_WIDTH, TILE_HEIGHT, 5); // for testing only
+		for(Client player: gameState.getPlayers()){
+			g.fillRect(player.getPosX(), player.getPosY(), 48, 39);
+		}
 		
 		/*
 		 * Render bombs
@@ -118,21 +119,53 @@ public class Bomberman extends BasicGame{
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		if(gameStatus == Constants.WAITING_FOR_PLAYERS && gc.getInput().isKeyPressed(Input.KEY_ENTER)){
+			// player ready
 			if(bombField.getText().trim().equals("bomb") && !game.getPlayer().isHost()){
 				gameStatus = Constants.WAITING_BUT_READY;
 				game.makeReady();
-				bombField = null;
 			}
+			// host says play
 			else if(bombField.getText().trim().equals("play") && game.getPlayer().isHost()){
+				this.gameState = new GameState(map);
+				game.getGameServer().setGameState(gameState);
 				game.start();
+				
+			}
+			else{
 				bombField.setText("");
+			}
+		}
+		
+		
+		else if(gameStatus == Constants.GAME_START){
+			Input input = gc.getInput();
+			
+			// movements
+			if(input.isKeyDown(Input.KEY_UP)){
+				game.sendGameAction("ACTION+"+game.getPlayerName()+"+UP");
+			} 
+			else if(input.isKeyDown(Input.KEY_DOWN)){
+				game.sendGameAction("ACTION+"+game.getPlayerName()+"+DOWN");
+			} 
+			else if(input.isKeyDown(Input.KEY_LEFT)){
+				game.sendGameAction("ACTION+"+game.getPlayerName()+"+LEFT");
+			} 
+			else if(input.isKeyDown(Input.KEY_RIGHT)){
+				game.sendGameAction("ACTION+"+game.getPlayerName()+"+RIGHT");
+			} 
+			// drop bomb
+			else if(input.isKeyDown(Input.KEY_SPACE)){
+				game.sendGameAction("ACTION+"+game.getPlayerName()+"+BOMB");
 			}
 		}
 	}
 
 	public void startGame() {
+		if(!game.getPlayer().isHost()){
+			this.gameState = new GameState(map);
+			game.getGameClient().setGameState(this.gameState);
+		}
 		this.gameStatus = Constants.GAME_START;
 	}
-
 	
 }
