@@ -1,11 +1,13 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -14,27 +16,66 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PlayerLives extends JPanel {
-		private String img;
-		private int livescount;
-
-	public PlayerLives (String img){
-		this.livescount=3;	
-		this.img=img;
-
-		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		this.setLayout(new GridLayout(1,2 ));				
+		private JLabel picLabel;
 		
-		try {
- 			BufferedImage pic = ImageIO.read(new File(img));
-			ImageIcon imgicon = new ImageIcon(pic.getScaledInstance(40, 40,java.awt.Image.SCALE_SMOOTH));
-			JLabel picLabel = new JLabel(imgicon);
+		private JPanel rightPanel;
+		private JLabel countLabel;
+		private JLabel playername;
 		
-			JLabel count = new JLabel("3");
-			count.setFont(new Font("Serif", Font.PLAIN, 25));
-
-			this.add(picLabel);	
-			this.add(count);
+		private int blocked;
 	
-		}catch( IOException io ) {}	
+	public PlayerLives(int playernum){
+		this.blocked = 1;
+
+		this.setBackground(Color.gray);
+		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		this.setLayout(new GridLayout(1, 3));
+
+		String imgfilename = "res/img/" + playernum + ".png";
+
+		// add player image
+		try {
+			BufferedImage pic = ImageIO.read(new File(imgfilename));
+			ImageIcon imgicon = new ImageIcon(pic.getScaledInstance(40, 40,
+					java.awt.Image.SCALE_SMOOTH));
+			picLabel = new JLabel(imgicon);
+			this.add(picLabel);
+		} catch (IOException io) {
+			io.printStackTrace();
+		}
+
+		rightPanel = new JPanel();
+		rightPanel.setLayout(new BorderLayout());
+		rightPanel.setBackground(Color.GRAY);
+		
+		// add the player lives count
+		countLabel = new JLabel("0");
+		countLabel.setFont(new Font("Serif", Font.PLAIN, 28));
+		rightPanel.add(countLabel,BorderLayout.CENTER);
+		
+		//adds playername
+		playername = new JLabel("PLAYER"+playernum);
+		playername.setFont(new Font("Serif", Font.PLAIN, 13));
+		rightPanel.add(playername,BorderLayout.SOUTH);
+		
+		this.add(rightPanel);
+	}
+	
+	public void activate(){
+		this.countLabel.setText("3");
+		this.setBackground(Color.white);
+		rightPanel.setBackground(Color.white);
+	}
+	
+	public void updateLives(int newCount){
+		this.countLabel.setText(""+newCount);
+		if(newCount==0){
+			this.setBackground(Color.gray);
+			this.blocked=1;
+		}
+	}
+	
+	public void setPlayerName(String name){
+		this.playername.setText(name);
 	}
 }
