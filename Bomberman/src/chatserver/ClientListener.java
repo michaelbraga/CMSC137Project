@@ -12,7 +12,7 @@ public class ClientListener extends Thread {
 	private BufferedReader in;
 	private Broadcaster broadcaster;
 	private ClientReceiver clientReceiver;
-
+	//client listener constructor
 	public ClientListener(Client c, ClientReceiver cr, Game game){
 		this.game = game;
 		this.client = c;
@@ -26,7 +26,7 @@ public class ClientListener extends Thread {
 			e.printStackTrace();
 		}
 	}
-
+	//method to start thread execution
 	@Override
 	public void run(){
 		String msg = null;
