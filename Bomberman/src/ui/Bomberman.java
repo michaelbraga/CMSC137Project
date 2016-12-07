@@ -52,6 +52,9 @@ public class Bomberman extends BasicGame{
 	
 
 	private void showGame(GameContainer gc, Graphics g) {
+		//start timer
+		game.getGameFrame().startTimer();
+		
 		/*
 		 * Render map
 		 * */
