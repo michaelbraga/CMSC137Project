@@ -9,13 +9,13 @@ public class MessageReceiver extends Thread {
 	private Game game;
 	private BufferedReader in;
 	private ChatClient chatClient;
-
+	//message receiver constructor	
 	public MessageReceiver(BufferedReader inFromServer, ChatClient chatClient, Game game){
 		this.game = game;
 		this.in = inFromServer;
 		this.chatClient = chatClient;
 	}
-
+	//method for message receiver thread execution
 	@Override
 	public void run(){
 		String messageReceived = null;
