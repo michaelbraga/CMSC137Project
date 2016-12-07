@@ -38,6 +38,9 @@ public class ServerListener extends Thread{
 		else if(messageReceived.startsWith("UPDATE")){
 			gameClient.updateGameState(messageReceived);
 		}
+		else if(messageReceived.startsWith("RESET_PLAYERS")){
+			gameClient.resetPlayers();
+		}
 		else{
 			System.out.println(messageReceived);
 		}

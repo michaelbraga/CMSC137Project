@@ -35,7 +35,7 @@ public class ClientReceiver extends Thread {
 				DataOutputStream out = new DataOutputStream(potentialClient.getOutputStream());
 				boolean full;
 				// if server is full
-				if( full = clientList.size() >= 5){
+				if( full = clientList.size() >= 5 && stillServing){
 					out.writeBoolean(full);
 				}
 				// if server is not full

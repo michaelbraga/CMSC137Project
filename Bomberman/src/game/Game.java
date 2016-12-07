@@ -275,5 +275,13 @@ public class Game implements WindowListener{
 		return this.gameFrame;
 	}
 
+	public void resetPlayers() {
+		gameServer.broadcast("RESET_PLAYERS");
+	}
+
+	public void updatePlayers() {
+		gameServer.broadcast("UPDATE~"+ gameServer.getGameState() .toString());
+	}
+
 	
 }

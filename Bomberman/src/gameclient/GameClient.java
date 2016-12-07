@@ -131,4 +131,8 @@ public class GameClient{
 	public void updateGameState(String update) {
 		this.gameState.update(update);
 	}
+
+	public void resetPlayers() {
+		this.gameState.getPlayers().clear();
+	}
 }
