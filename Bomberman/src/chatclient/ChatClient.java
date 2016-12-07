@@ -11,6 +11,7 @@ import java.net.Socket;
 import game.Game;
 
 public class ChatClient{
+	//Chat Client variables
 	private Game game;
 	private String ipAddress;
 	private int portNumber;
@@ -22,6 +23,7 @@ public class ChatClient{
 	private MessageReceiver mr = null;
 	private MessageSender ms = null;
 
+	//chat client class constructor	
 	public ChatClient(String ip, int port, String name, Game game){
 		this.game = game;
 		this.game.setServerIp(ip);
@@ -29,7 +31,7 @@ public class ChatClient{
 		this.portNumber = port;
 		this.username = name;
 	}
-
+	//method for connecting chat client ip:socket combination to the host ip:socket
 	public boolean connect(){
 		try{
 			this.socket = new Socket(ipAddress, portNumber);
@@ -64,7 +66,7 @@ public class ChatClient{
 			return false;
 		}
 	}
-
+	//method for the thread to run the chat client
 	public void start(){
 		if(this.socket != null){
 			try{
@@ -87,7 +89,7 @@ public class ChatClient{
 			System.out.println("Error: Connection to server has not been established!");
 		}
 	}
-
+	//method for releasing the chat client connection
 	@SuppressWarnings("deprecation")
 	public void close(int stat){
 		try{

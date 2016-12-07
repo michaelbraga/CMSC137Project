@@ -17,7 +17,7 @@ public class ClientReceiver extends Thread {
 
 	private boolean stillServing = true;
 
-
+	//client receiver at server constructor
 	public ClientReceiver(ServerSocket ss, ArrayList<Client> cl, Broadcaster b, String sn, Game game){
 		this.game = game;
 		serverSocket = ss;
@@ -25,7 +25,7 @@ public class ClientReceiver extends Thread {
 		broadcaster = b;
 		servername = sn;
 	}
-
+	//method for starting thread execution
 	@Override
 	public void run(){
 		while(stillServing){
@@ -64,11 +64,11 @@ public class ClientReceiver extends Thread {
 			}
 		}
 	}
-
+	//method to get the chatserver's broadcaster class object
 	public Broadcaster getBroadcaster(){
 		return this.broadcaster;
 	}
-
+	//method to check if a certain player username still exists on the game/server
 	public boolean checkIfAvailable(String username){
 		if(servername.equals(username)) return false;
 
@@ -79,7 +79,7 @@ public class ClientReceiver extends Thread {
 		}
 		return true;
 	}
-
+	//method for removing a client on the chat system
 	public void removeClient(String username){
 
 		for(int i=0; i<clientList.size(); i+=1){

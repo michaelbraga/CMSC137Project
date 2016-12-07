@@ -8,12 +8,12 @@ import java.util.ArrayList;
 public class Broadcaster {
 	private ArrayList<Client> clientList;
 	private ArrayList<PrintWriter> portal;
-
+	//chat message broadcaster class constructor
 	public Broadcaster(ArrayList<Client> cl){
 		this.clientList = cl;
 		this.portal = new ArrayList<>();
 	}
-
+	//broadcast method to send received message from a client to all clients except the sender
 	public synchronized void broadcast(String message){
 		if(!message.isEmpty()){
 			for (int i=0; i<portal.size(); i+=1) {
@@ -22,7 +22,7 @@ public class Broadcaster {
 			}
 		}
 	}
-
+	//method for sending the string message
 	public synchronized void sendMessage(String sender, String message){
 		if(!message.isEmpty()){
 			for (int i=0; i<portal.size(); i+=1) {
@@ -33,7 +33,7 @@ public class Broadcaster {
 			}
 		}
 	}
-
+	//method for updating portals of the chat system
 	public void updatePortals(){
 		portal.clear();
 		try{
