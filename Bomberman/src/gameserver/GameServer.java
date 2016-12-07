@@ -135,7 +135,7 @@ public class GameServer{
 
 	public void send(String message, Client player) {
 		// TODO Auto-generated method stub
-				byte[] letter = new byte[256];
+				byte[] letter = new byte[4096];
 				letter = new String(message.toString()).getBytes();
 				DatagramPacket packet;
 				try {
@@ -209,14 +209,27 @@ public class GameServer{
 		broadcast("UPDATE~"+ gameState.toString());
 	}
 
-	public void doAction(String playerName, String action) {
-		movePlayer(playerName, action);
-		// update
-		if(this.gameState == null){
-			game.dialogInGame("null si gameState");
+	public void doAction(String message) {
+		if(message.startsWith("ACTION_MOVEMENT")){
+			String tokens[] = message.split("\\+");
+			movePlayer(tokens[2], tokens[1]);
 		}
+		else if(message.startsWith("ACTION_DROPBOMB")){
+			String tokens[] = message.split("\\+");
+			dropBomb(tokens[1]);
+		}
+	
 		broadcast("UPDATE~"+ gameState.toString());
 	}
+
+	private void dropBomb(String username) {
+		Client player = getPlayer(username);
+		int x =(int) Math.floor((player.getPosX()+(Constants.TILE_WIDTH/2)+4) / Constants.TILE_WIDTH);
+		int y =(int) Math.floor((player.getPosY()+(Constants.TILE_HEIGHT/2)+4)/Constants.TILE_HEIGHT);
+		gameState.addBombLocation(new Point(x, y));
+	}
+	
+	
 
 	private void movePlayer(String username, String movement) {
 		Client player = getPlayer(username);
@@ -233,7 +246,6 @@ public class GameServer{
 		else if(movement.equals("RIGHT")){
 			player.moveRight();
 		}
-		
 	}
 
 	private Client getPlayer(String username) {

@@ -10,5 +10,6 @@ public class Constants {
 	public static final int WAITING_FOR_PLAYERS = 523;
 	public static final int WAITING_BUT_READY = 524;
 	public static final int GAME_START = 124;
-
+	public static int TILE_HEIGHT;
+	public static int TILE_WIDTH;
 }

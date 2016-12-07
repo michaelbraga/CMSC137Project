@@ -106,7 +106,6 @@ public class GameFrame extends JFrame {
 		        } 
 		    }
 		});
-		timer.start();
 		
 		JLabel colon = new JLabel(":");
 		

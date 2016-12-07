@@ -55,9 +55,8 @@ public class PlayerListener extends Thread {
 						// action from player client
 						if(messageReceived.startsWith("ACTION")){
 							String tokens[] = messageReceived.split("\\+");
-							gameServer.doAction(tokens[1], tokens[2]);
+							gameServer.doAction(messageReceived);
 						}
-						
 						break;
 				}
 			} catch(Exception e){

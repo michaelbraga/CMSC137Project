@@ -258,9 +258,8 @@ public class Game implements WindowListener{
 			gameClient.sendGameAction(action);
 		}
 		else{
-			String[] tokens = action.split("\\+");
 			// update game
-			gameServer.doAction(getPlayerName(), tokens[2]);
+			gameServer.doAction(action);
 		}
 	}
 	

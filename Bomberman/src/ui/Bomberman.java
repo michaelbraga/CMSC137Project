@@ -1,5 +1,7 @@
 package ui;
 
+import java.awt.Point;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -67,12 +69,11 @@ public class Bomberman extends BasicGame{
 		/*
 		 * Render bombs
 		 * */
-		bombSprite.draw(TILE_WIDTH*(x+2) +4, TILE_HEIGHT*(y+3)); // for testing only
-		bombSprite.draw(TILE_WIDTH*(1) +4, TILE_HEIGHT*(11)); // for testing only
-		
-		/*
-		 * Render player
-		 * */
+		for(Point bombPlace: gameState.getBombLocations()){
+			bombSprite.draw((int)bombPlace.getX()*TILE_WIDTH, (int)bombPlace.getY()*TILE_HEIGHT);
+		}
+//		bombSprite.draw(TILE_WIDTH*(x+2) +4, TILE_HEIGHT*(y+3)); // for testing only
+//		bombSprite.draw(TILE_WIDTH*(1) +4, TILE_HEIGHT*(11)); // for testing only
 	}
 
 	private void waitingButReady(GameContainer gc, Graphics g) {
@@ -105,8 +106,8 @@ public class Bomberman extends BasicGame{
 			bombField.setBackgroundColor(Color.gray);
 			
 			map = new TiledMap("res/map1.tmx");
-			TILE_HEIGHT = map.getTileHeight();
-			TILE_WIDTH = map.getTileWidth();
+			Constants.TILE_HEIGHT = TILE_HEIGHT = map.getTileHeight();
+			Constants.TILE_WIDTH = TILE_WIDTH = map.getTileWidth();
 			
 			bombSprite = new Animation(new SpriteSheet("res/sprite/bomb.png", 39, 39), 200);
 		} catch (Exception e) {
@@ -142,20 +143,20 @@ public class Bomberman extends BasicGame{
 			
 			// movements
 			if(input.isKeyDown(Input.KEY_UP)){
-				game.sendGameAction("ACTION+"+game.getPlayerName()+"+UP");
+				game.sendGameAction("ACTION_MOVEMENT+UP+"+game.getPlayerName());
 			} 
 			else if(input.isKeyDown(Input.KEY_DOWN)){
-				game.sendGameAction("ACTION+"+game.getPlayerName()+"+DOWN");
+				game.sendGameAction("ACTION_MOVEMENT+DOWN+"+game.getPlayerName());
 			} 
 			else if(input.isKeyDown(Input.KEY_LEFT)){
-				game.sendGameAction("ACTION+"+game.getPlayerName()+"+LEFT");
+				game.sendGameAction("ACTION_MOVEMENT+LEFT+"+game.getPlayerName());
 			} 
 			else if(input.isKeyDown(Input.KEY_RIGHT)){
-				game.sendGameAction("ACTION+"+game.getPlayerName()+"+RIGHT");
+				game.sendGameAction("ACTION_MOVEMENT+RIGHT+"+game.getPlayerName());
 			} 
 			// drop bomb
-			else if(input.isKeyDown(Input.KEY_SPACE)){
-				game.sendGameAction("ACTION+"+game.getPlayerName()+"+BOMB");
+			else if(input.isKeyPressed(Input.KEY_SPACE)){
+				game.sendGameAction("ACTION_DROPBOMB+"+game.getPlayerName());
 			}
 		}
 	}
