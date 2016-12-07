@@ -30,7 +30,9 @@ public class Bomberman extends BasicGame{
 	
 	private float x=1f, y=1f;
 	private Animation bombSprite;
+	private Animation playerSprite;
 	private GameState gameState;
+	
 	
 	public Bomberman(Game game) {
 		super("Bomberman");
@@ -66,7 +68,7 @@ public class Bomberman extends BasicGame{
 		 * Render all players
 		 * */
 		for(Client player: gameState.getPlayers()){
-			g.fillRect(player.getPosX(), player.getPosY(), 48, 39);
+			playerSprite.draw(player.getPosX(), player.getPosY());
 		}
 		
 		/*
@@ -113,6 +115,7 @@ public class Bomberman extends BasicGame{
 			Constants.TILE_WIDTH = TILE_WIDTH = map.getTileWidth();
 			
 			bombSprite = new Animation(new SpriteSheet("res/sprite/bomb.png", 39, 39), 200);
+			playerSprite = new Animation(new SpriteSheet("res/sprite/down.png", 30, 44), 200);
 		} catch (Exception e) {
 			e.printStackTrace();
 			game.dialogInGame("Error in Slick2D!");

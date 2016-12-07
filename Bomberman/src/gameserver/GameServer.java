@@ -175,7 +175,7 @@ public class GameServer{
 		for(int i=0; i<players.size(); i+=1){
 			if(players.get(i).getUsername().equals(username)){
 				players.remove(i);
-				game.dialogInGame(username + " has been disconnected! " + players.size());
+				game.dialogInGame(username + " has been disconnected! " + players.size() + " remaining players!");
 				break;
 			}
 		}
