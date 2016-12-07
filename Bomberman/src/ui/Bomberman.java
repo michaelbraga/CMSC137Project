@@ -32,13 +32,17 @@ public class Bomberman extends BasicGame{
 	private Animation bombSprite;
 	private Animation playerSprite;
 	private GameState gameState;
+<<<<<<< HEAD
 	
 	
+=======
+	//bomberman game class constructor
+>>>>>>> origin/master
 	public Bomberman(Game game) {
 		super("Bomberman");
 		this.game=game;
 	}
-
+	//method to render game contents via the slick2d library
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		switch(gameStatus){
@@ -54,7 +58,7 @@ public class Bomberman extends BasicGame{
 		}
 	}
 	
-
+	//method to show/render game contents
 	private void showGame(GameContainer gc, Graphics g) {
 		//start timer
 		game.getGameFrame().startTimer();
@@ -80,7 +84,7 @@ public class Bomberman extends BasicGame{
 //		bombSprite.draw(TILE_WIDTH*(x+2) +4, TILE_HEIGHT*(y+3)); // for testing only
 //		bombSprite.draw(TILE_WIDTH*(1) +4, TILE_HEIGHT*(11)); // for testing only
 	}
-
+	//method to set game screen into ready state
 	private void waitingButReady(GameContainer gc, Graphics g) {
 		g.setColor(new Color(4, 76, 41));
 		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
@@ -88,7 +92,7 @@ public class Bomberman extends BasicGame{
 		g.setColor(Color.yellow);
 		g.drawString("Waiting for other players...", gc.getWidth()/3, gc.getHeight()/2);
 	}
-
+	//method to set game screen to awaiting player in host
 	private void waitingForPlayers(GameContainer gc, Graphics g) {
 		g.setColor(new Color(4, 76, 41));
 		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
@@ -100,7 +104,7 @@ public class Bomberman extends BasicGame{
 		g.setColor(Color.white);
 		bombField.render(gc, g);
 	}
-
+	//method for variable initialization for game contents
 	@Override
 	public void init(GameContainer gc){
 		
@@ -122,7 +126,9 @@ public class Bomberman extends BasicGame{
 			System.exit(1);
 		}
 	}
-
+	//method to update game via the state of player
+	//if client is still in ready state and not ingame
+	//and if client is sending in game actions
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		if(gameStatus == Constants.WAITING_FOR_PLAYERS && gc.getInput().isKeyPressed(Input.KEY_ENTER)){
@@ -143,7 +149,7 @@ public class Bomberman extends BasicGame{
 			}
 		}
 		
-		
+		//in game actions when player is in game
 		else if(gameStatus == Constants.GAME_START){
 			Input input = gc.getInput();
 			
@@ -166,7 +172,7 @@ public class Bomberman extends BasicGame{
 			}
 		}
 	}
-
+	//method for starting the bomberman class game
 	public void startGame() {
 		if(!game.getPlayer().isHost()){
 			this.gameState = new GameState(map);

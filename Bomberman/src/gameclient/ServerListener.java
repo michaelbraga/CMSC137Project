@@ -7,12 +7,12 @@ import java.net.DatagramSocket;
 public class ServerListener extends Thread{
 	private GameClient gameClient;
 	private DatagramSocket clientSocket;
-	
+	//method for server listener class constructor
 	public ServerListener(GameClient gameClient){
 		this.gameClient = gameClient;
 		this.clientSocket = gameClient.getClientSocket();
 	} 
-	
+	//method for thread execution
 	@Override
 	public void run(){
 		while(true){
@@ -29,7 +29,7 @@ public class ServerListener extends Thread{
 			}
 		}
 	}
-
+	//method for parsing client message updates of actions
 	private void analyzeMessage(String messageReceived) {
 		
 		if(messageReceived.startsWith("STARTNA")){

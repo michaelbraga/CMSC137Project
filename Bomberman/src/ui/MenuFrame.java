@@ -46,18 +46,18 @@ public class MenuFrame extends JFrame implements ActionListener{
 		this.setLocationRelativeTo(null);
 		showMenuPane();
 	}
-
+	//method for initializing window
 	private void initWindow(int width, int height) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(new Dimension(800, 600));
 	}
-
+	//method for initializing menu ui components
 	private void initComponents() {
 		initMenuPane();
 		initHostPane();
 		initJoinPane();
 	}
-	
+	//method for initializing menu join panel
 	private void initJoinPane() {
 		GridBagConstraints gbc = new GridBagConstraints();
 		JButton backButton = new JButton("Back");
@@ -97,7 +97,7 @@ public class MenuFrame extends JFrame implements ActionListener{
 		joinGame.setActionCommand("do_join");
 		joinGame.addActionListener(this);
 	}
-
+	//method for initializing host panel
 	private void initHostPane() {
 		GridBagConstraints gbc = new GridBagConstraints();
 		JButton backButton = new JButton("Back");
@@ -129,7 +129,7 @@ public class MenuFrame extends JFrame implements ActionListener{
 		hostGame.setActionCommand("do_host");
 		hostGame.addActionListener(this);
 	}
-
+	//method for initializing menu panel
 	private void initMenuPane() {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -164,19 +164,19 @@ public class MenuFrame extends JFrame implements ActionListener{
 				"([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 		usernamePattern = Pattern.compile("^[a-zA-Z_0-9]+$");
 	}
-	
+	//method for rendering host panel 
 	private void showHostPane(){
 		setContentPane(hostPane);
 	}
-	
+	//method for rendering join panel
 	private void showJoinPane(){
 		setContentPane(joinPane);
 	}
-	
+	//method for rendering menu panel
 	private void showMenuPane(){
 		setContentPane(menuPane);
 	}
-
+	//method to catch user action
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()){
@@ -190,7 +190,7 @@ public class MenuFrame extends JFrame implements ActionListener{
 			case "read": this.game.dialogInMenu("Read Me") ; break;
 		}
 	}
-	
+	//method for joining game
 	private void join() {
 		if(!usernameJoin.getText().isEmpty() && !ip.getText().isEmpty()){
 			// check if ip is valid
@@ -205,7 +205,7 @@ public class MenuFrame extends JFrame implements ActionListener{
 			}
 		}
 	}
-
+	//method for hosting game
 	private void host() {
 		String username = usernameHost.getText();
 		if(!username.isEmpty() && !username.trim().isEmpty()){

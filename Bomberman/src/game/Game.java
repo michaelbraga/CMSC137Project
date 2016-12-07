@@ -32,16 +32,16 @@ public class Game implements WindowListener{
 	/* Player info */
 	Player player;
 	private String serverIp;
-
+	//main function method
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new Game();
 	}
-	
+	//game class constructor
 	public Game(){
 		openMenuWindow();
 	}
-
+	//method for a client to join hosted game
 	public void join(int tcp_port, String username, String ip) {
 		
 		chatClient = new ChatClient(ip, Constants.TCP_PORT, username, this);
@@ -59,7 +59,7 @@ public class Game implements WindowListener{
 			gameClient = null;
 		}
 	}
-
+	//method if user chooses to host a game
 	public void hostGame(int tcp_port, String username) {
 		
 		chatServer = new ChatServer(tcp_port, username, this);
@@ -76,17 +76,17 @@ public class Game implements WindowListener{
 			gameServer = null;
 		}
 	}
-
+	//method for showing in menu dialog
 	public void dialogInMenu(String string) {
 		if(menuFrame != null)
 			JOptionPane.showMessageDialog(menuFrame, string);
 	}
-	
+	//method for showing in game dialog
 	public void dialogInGame(String string) {
 		if(gameFrame != null)
 			JOptionPane.showMessageDialog(gameFrame, string);
 	}
-
+	//method for sending messages through the chat system
 	public void sendMessage(String message) {
 		if(player.isHost()){
 			if(message.equals(Constants.LEAVE_GAME))
@@ -98,33 +98,34 @@ public class Game implements WindowListener{
 			chatClient.sendMessage(message);
 		}
 	}
-
+	//method for retrieving a certain player name
 	public String getPlayerName() {
 		return (player == null)? null:player.getUsername();
 	}
-	
+	//method for retrieving server ip address
 	public String getServerIp() {
 		return (serverIp == null)? null:serverIp;
 	}
+	//method to set server ip address
 	public void setServerIp(String ip) {
 		this.serverIp =ip;
 	}
-
+	//method to handle updating chat
 	public void receiveMessage(String messageReceived) {
 		// TODO Auto-generated method stub
 		gameFrame.getChatPanel().updateChat(messageReceived);
 	}
-
+	//method to handle updating chat
 	public void receiveMessage(String username, String messageReceived) {
 		// TODO Auto-generated method stub
 		gameFrame.getChatPanel().updateChat("( "+username + " ): " + messageReceived);
 	}
-
+	//method that asks if client wants to quit the game
 	private boolean quit(){
 		int response = JOptionPane.showConfirmDialog(menuFrame, "Are you sure you want to leave?");
 		return (response == JOptionPane.YES_OPTION);
 	}
-	
+	//method if client chooses to quit the hosted game
 	public void leave() {
 		if(quit()){
 			sendMessage(Constants.LEAVE_GAME);

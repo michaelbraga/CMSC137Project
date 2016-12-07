@@ -26,13 +26,13 @@ public class GameServer{
 	
 	public static int TILE_WIDTH=48, TILE_HEIGHT=39;
 	
-
+	//game server class constructor
 	public GameServer(Game game){
 		this.game = game;
 		gameOver = false;
 		players =  new ArrayList<>();
 	}
-	
+	//game server host method for hosting game
 	public boolean host(){
 		try {
 			serverSocket = new DatagramSocket(Constants.UDP_PORT);
@@ -46,7 +46,7 @@ public class GameServer{
 		}
 		return true;
 	}
-	
+	//method for host to start catering game ui services
 	public void startServing(){
 		if(serverSocket != null){
 			playerListener = new PlayerListener(this);

@@ -26,7 +26,7 @@ public class ChatPanel extends JPanel implements ActionListener{
 	private JTextArea messageField;
 	private JButton sendButton;
 	
-
+	//chat panel class constructor
 	public ChatPanel(Game game, Dimension d){
 		super();
 		this.game = game;
@@ -34,14 +34,14 @@ public class ChatPanel extends JPanel implements ActionListener{
 		this.setLayout(new GridBagLayout());
 		initComponents();
 	}
-	
+	//method for initializing chat panel ui components
 	private void initComponents(){
 		initLeaveButton();
 		initChatArea();
 		initInputArea();
 		addButtonListeners();
 	}
-
+	//method for initializing leave button
 	private void initLeaveButton(){
 		leaveButton = new JButton("LEAVE GAME");
 		leaveButton.setFont(new Font(Constants.FONT_STYLE, Font.PLAIN, 12));
@@ -54,7 +54,7 @@ public class ChatPanel extends JPanel implements ActionListener{
 		gbc.gridwidth = 2;
 		this.add(leaveButton, gbc);
 	}
-	
+	//method for rendering initial chat area ui
 	private void initChatArea(){
 		chatTextArea = new JTextArea();
 		chatTextArea.setEditable(false);
@@ -73,7 +73,7 @@ public class ChatPanel extends JPanel implements ActionListener{
 		gbc.gridwidth = 2;
 		this.add(scroll2, gbc);
 	}
-	
+	//method for initializing input area 
 	private void initInputArea(){
 		messageField = new JTextArea();
 		messageField.setFont(new Font(Constants.FONT_STYLE, Font.PLAIN, 13));
@@ -97,14 +97,14 @@ public class ChatPanel extends JPanel implements ActionListener{
 		gbc.fill = GridBagConstraints.BOTH;
 		this.add(sendButton, gbc);
 	}
-	
+	//method for adding button listeners for chat system ui
 	private void addButtonListeners() {
 		leaveButton.setActionCommand("leave");
 		leaveButton.addActionListener(this);
 		sendButton.setActionCommand("send");
 		sendButton.addActionListener(this);
 	}
-	
+	//method when client has done an action
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()){
@@ -116,11 +116,11 @@ public class ChatPanel extends JPanel implements ActionListener{
 				break;
 		}
 	}
-
+	//method for leaving the game
 	private void leaveGame() {
 		game.leave();
 	}
-
+	//method for sending ui message to the game class for broadcast
 	private void sendMessage(String text) {
 		if(!text.trim().isEmpty() && !text.isEmpty()){
 			game.sendMessage(text.trim());
@@ -128,7 +128,7 @@ public class ChatPanel extends JPanel implements ActionListener{
 			messageField.setText("");
 		}
 	}
-
+	//method for updating chat messages
 	public void updateChat(String string) {
 		this.chatTextArea.append(string + nl);
 	}

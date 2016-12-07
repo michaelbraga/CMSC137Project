@@ -12,13 +12,13 @@ public class GameState {
 	TiledMap map;
 	ArrayList<Client> players;
 	private ArrayList<Point> bombLocations;
-	
+	//game state class constructor
 	public GameState(TiledMap map){
 		this.map = map;
 		this.players = new ArrayList<>();
 		this.bombLocations = new ArrayList<>();
 	}
-	
+	//game state method to parse game contents to string
 	public String toString(){
 		String gameState = "";
 		gameState += "PLAYERS";
@@ -31,11 +31,11 @@ public class GameState {
 		}
 		return gameState;
 	}
-
+	//method to set game state players 
 	public void setPlayers(ArrayList<Client> players) {
 		this.players = players;
 	}
-
+	//method to update game state via the string update to be parsed
 	public void update(String update) {
 		System.out.println(update);
 		String[] tokens = update.split("~");
@@ -69,7 +69,7 @@ public class GameState {
 			}
 		}
 	}
-	
+	//method to get game state player
 	private Client getPlayer(String username) {
 		for(Client c: players){
 			if(c.getUsername().equals(username))
@@ -77,19 +77,19 @@ public class GameState {
 		}
 		return null;
 	}
-
+	//method to get the map contents
 	public TiledMap getMap() {
 		return this.map;
 	}
-
+	//method to get list of players
 	public ArrayList<Client> getPlayers() {
 		return this.players;
 	}
-
+	//method to get list of bomb locations
 	public ArrayList<Point> getBombLocations() {
 		return this.bombLocations;
 	}
-
+	//method to set a bomb in the map
 	public boolean addBombLocation(Point point) {
 		for(Point p: this.bombLocations){
 			if(p.getX() == point.getX() && p.getY() == point.getY()){

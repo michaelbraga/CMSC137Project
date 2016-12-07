@@ -49,7 +49,7 @@ public class GameFrame extends JFrame {
 	
 	/* Bomberman game */
 	private Bomberman bombermanGame;
-
+	//game frame class constructor for bomberman
 	public GameFrame(Game game)  {
 		super("BOMBERMAN - " + game.getPlayerName());
 		this.game = game;
@@ -59,7 +59,7 @@ public class GameFrame extends JFrame {
 		initComponents();
 		this.setLocationRelativeTo(null);
 	}
-	
+	//method for initialization of game frame components
 	private void initComponents() {
 		contentPane = getContentPane();
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
@@ -128,7 +128,7 @@ public class GameFrame extends JFrame {
 		upPanel.add(timerPanel);
 		upPanel.add(livesPanel);
 	}
-	
+	//method for initialization of game frame at down panel
 	public void initDownPanel(){
 		downPanel.setLayout(new BoxLayout(downPanel, BoxLayout.X_AXIS));
 		chatPanel = new ChatPanel(game, new Dimension((int)(3.0/10.0 * WIDTH), (int)(5.0/6.0 * HEIGHT)));
@@ -166,7 +166,7 @@ public class GameFrame extends JFrame {
 	public ChatPanel getChatPanel() {
 		return chatPanel;
 	}
-
+	//method for starting game
 	public void startGame() {
 		this.bombermanGame.startGame();
 	}

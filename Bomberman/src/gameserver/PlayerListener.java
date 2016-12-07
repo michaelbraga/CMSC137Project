@@ -9,13 +9,13 @@ public class PlayerListener extends Thread {
 	private GameServer gameServer;
 	private DatagramSocket serverSocket;
 	private boolean gameOver;
-	
+	//player listener class constructor
 	public PlayerListener(GameServer gs){
 		this.gameServer = gs;
 		this.serverSocket = gs.getServerSocket();
 		this.gameOver = gs.isGameOver();
 	}
-	
+	//client player listener class thread execution
 	@Override
 	public void run(){
 		String messageReceived;
