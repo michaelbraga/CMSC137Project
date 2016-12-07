@@ -23,7 +23,7 @@ public class PlayerLives extends JPanel {
 		private JLabel playername;
 		
 		private int blocked;
-	
+	//player lives class constructor
 	public PlayerLives(int playernum){
 		this.blocked = 1;
 
@@ -60,13 +60,13 @@ public class PlayerLives extends JPanel {
 		
 		this.add(rightPanel);
 	}
-	
+	//method for initializing player lives ui and content
 	public void activate(){
 		this.countLabel.setText("3");
 		this.setBackground(Color.white);
 		rightPanel.setBackground(Color.white);
 	}
-	
+	//method for updating player lives ui
 	public void updateLives(int newCount){
 		this.countLabel.setText(""+newCount);
 		if(newCount==0){
@@ -74,7 +74,7 @@ public class PlayerLives extends JPanel {
 			this.blocked=1;
 		}
 	}
-	
+	//method to assign a cell into a player username
 	public void setPlayerName(String name){
 		this.playername.setText(name);
 	}
