@@ -26,6 +26,7 @@ public class MenuFrame extends JFrame implements ActionListener{
 	
 	private JButton hostButton;
 	private JButton joinButton;
+	private JButton readmeButton;
 	
 	private JTextField usernameHost;
 	private JTextField usernameJoin;
@@ -137,11 +138,14 @@ public class MenuFrame extends JFrame implements ActionListener{
 		menuPane.setSize(new Dimension(800, 600));
 		hostButton = new JButton("Host Game");
 		joinButton = new JButton("Join Game");
+		readmeButton = new JButton("Read Me");
 		menuPane.setLayout(new GridBagLayout());
 		gbc.gridy = 0;
 		menuPane.add(hostButton, gbc);
 		gbc.gridy = 1;
 		menuPane.add(joinButton, gbc);
+		gbc.gridy = 2;
+		menuPane.add(readmeButton, gbc);
 	}
 
 	private void addButtonListeners() {
@@ -149,6 +153,8 @@ public class MenuFrame extends JFrame implements ActionListener{
 		joinButton.setActionCommand("join");
 		hostButton.addActionListener(this);
 		hostButton.setActionCommand("host");
+		readmeButton.addActionListener(this);
+		readmeButton.setActionCommand("read");
 	}
 	
 	private void prepareCheckers() {
@@ -179,6 +185,9 @@ public class MenuFrame extends JFrame implements ActionListener{
 			case "do_host": host(); break;
 			case "do_join": join(); break;
 			case "back": showMenuPane(); break;
+			
+			
+			case "read": this.game.dialogInMenu("Read Me") ; break;
 		}
 	}
 	
