@@ -106,7 +106,6 @@ public class GameFrame extends JFrame {
 		        } 
 		    }
 		});
-		
 		JLabel colon = new JLabel(":");
 		
 		timerPanel.add(timeLabel_min);
@@ -170,6 +169,10 @@ public class GameFrame extends JFrame {
 
 	public void startGame() {
 		this.bombermanGame.startGame();
+	}
+	
+	public void startTimer() {
+		this.timer.start();
 	}
 
 }

@@ -270,4 +270,10 @@ public class Game implements WindowListener{
 	public GameClient getGameClient() {
 		return this.gameClient;
 	}
+	
+	public GameFrame getGameFrame(){
+		return this.gameFrame;
+	}
+
+	
 }
