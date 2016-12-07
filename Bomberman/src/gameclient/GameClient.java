@@ -19,7 +19,7 @@ public class GameClient{
 	private String username;
 	private GameState gameState;
 	
-	
+	//game client class constructor
 	public GameClient(Game game, String username){
 		this.game = game;
 		this.username = username;
@@ -33,10 +33,11 @@ public class GameClient{
 			serverListener = null;
 		}
 	}
-	
+	//method for thread execution of the game client class
 	public void start(){
 		serverListener = new ServerListener(this);
 	}
+	//method to connect client game socket to host game socket
 	public boolean connect() {
 		if(!connected && clientSocket != null){
 			while(true){
@@ -61,7 +62,7 @@ public class GameClient{
 		}
 		return false;
 	}
-
+	//method to send client actions to server
 	private void send(String message) {
 		// TODO Auto-generated method stub
 		byte[] letter = new byte[256];
@@ -78,19 +79,19 @@ public class GameClient{
 			e.printStackTrace();
 		}
 	}
-
+	//method to check if client is connected to the game
 	public boolean isConnected() {
 		return connected;
 	}
-
+	//mtehod to get client udp socket
 	public DatagramSocket getClientSocket() {
 		return this.clientSocket;
 	}
-
+	//method to close / end connection with the socket
 	public void close() {
 		this.clientSocket.close();
 	}
-
+	//method to require players to get ready before entering the game
 	public void makeReady() {
 		while(true){
 			try {
@@ -111,23 +112,23 @@ public class GameClient{
 			}
 		}
 	}
-
+	//method for displaying in game dialog
 	public void m(String string) {
 		game.dialogInGame(string);
 	}
-
+	//method to start the ui game class
 	public void startGame() {
 		game.start();
 	}
-
+	//method for sending client action to server
 	public void sendGameAction(String action) {
 		send(action);
 	}
-
+	//method to set client game state
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
 	}
-
+	//method to update client game state
 	public void updateGameState(String update) {
 		this.gameState.update(update);
 	}

@@ -1,6 +1,7 @@
 package constants;
 
 public class Constants {
+	//this class contains numerical and port constants for the game
 	public static final int TCP_PORT = 2381;
 	public static final int UDP_PORT = 2425;
 	
